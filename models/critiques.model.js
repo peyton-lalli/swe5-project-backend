@@ -1,14 +1,17 @@
 const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
-  const Users = sequelize.define(
-    "users",
+  const Critiques = sequelize.define(
+    "critiques",
     {
-      email: {
+      eventid: {
+        type: Sequelize.INTEGER,
+      },
+      critquetext: {
         type: Sequelize.STRING,
       },
-      role: {
-        type: Sequelize.STRING,
+      instructorid: {
+        type: Sequelize.INTEGER,
       },
       id: {
         type: Sequelize.INTEGER,
@@ -16,14 +19,8 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         unique: true,
       },
-      fName: {
-        type: Sequelize.STRING,
-      },
-      lName: {
-        type: Sequelize.STRING,
-      },
     },
     { timestamps: false }
   );
-  return Users;
+  return Critiques;
 };
