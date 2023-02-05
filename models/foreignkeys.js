@@ -1,33 +1,66 @@
 function addForeignKeys(db) {
-  const events = db.events;
-  const facultysection = db.facultysection;
-  const favorites = db.favorites;
-  const sectiontime = db.sectiontime;
-  const semesters = db.semesters;
+  const availability = db.availability;
+  const composers = db.composers;
+  const critiques = db.critiques;
+  const ensemble = db.ensemble;
+  const event = db.event;
+  const eventsongs = db.eventsongs;
+  const instructors = db.instructors;
+  const members = db.members;
+  const pieces = db.pieces;
+  const repertoire = db.repertoire;
+  const requirements = db.requirements;
+  const sessions = db.sessions;
+  const studentinfo = db.studentinfo;
   const users = db.users;
-  const rooms = db.rooms;
-  const faculty = db.faculty;
-  const sections = db.sections;
-  const courses = db.courses;
-  const buildings = db.buildings;
 
-  events.belongsTo(semesters);
-  events.belongsTo(users);
-  events.belongsTo(rooms);
+  availability.belongsTo(instructors);
 
-  facultysection.belongsTo(faculty);
-  facultysection.belongsTo(sections);
+  composers.belongsTo(pieces);
 
-  favorites.belongsTo(users);
-  favorites.belongsTo(courses);
+  critiques.belongsTo(event);
 
-  rooms.belongsTo(buildings);
+  ensemble.belongsTo(members);
+  ensemble.belongsTo(event);
+  ensemble.belongsTo(instructors);
 
-  sections.belongsTo(courses);
-  sections.belongsTo(semesters);
+  event.belongsTo(eventsongs);
+  event.belongsTo(critiques);
+  event.belongsTo(ensemble);
+  event.belongsTo(studentinfo);
 
-  sectiontime.belongsTo(sections);
-  sectiontime.belongsTo(rooms);
+  eventsongs.belongsTo(pieces);
+  eventsongs.belongsTo(event);
+
+  instructors.belongsTo(users);
+  instructors.belongsTo(availability);
+  instructors.belongsTo(ensemble);
+  instructors.belongsTo(studentinfo);
+
+  members.belongsTo(studentinfo);
+  members.belongsTo(ensemble);
+
+  pieces.belongsTo(composers);
+  pieces.belongsTo(eventsongs);
+  pieces.belongsTo(repertoire);
+
+  repertoire.belongsTo(pieces);
+  repertoire.belongsTo(studentinfo);
+
+  requirements.belongsTo(studentinfo);
+
+  sessions.belongsTo(users);
+
+  studentinfo.belongsTo(users);
+  studentinfo.belongsTo(instructors);
+  studentinfo.belongsTo(members);
+  studentinfo.belongsTo(repertoire);
+  studentinfo.belongsTo(requirements);
+  studentinfo.belongsTo(event);
+
+  users.belongsTo(instructors);
+  users.belongsTo(studentinfo);
+  users.belongsTo(sessions);
 }
 
 module.exports = { addForeignKeys };
