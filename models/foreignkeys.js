@@ -1,33 +1,48 @@
 function addForeignKeys(db) {
-  const events = db.events;
-  const facultysection = db.facultysection;
-  const favorites = db.favorites;
-  const sectiontime = db.sectiontime;
-  const semesters = db.semesters;
+  const availability = db.availability;
+  const composers = db.composers;
+  const critiques = db.critiques;
+  const ensemble = db.ensemble;
+  const event = db.event;
+  const eventsongs = db.eventsongs;
+  const instructors = db.instructors;
+  const members = db.members;
+  const pieces = db.pieces;
+  const repertoire = db.repertoire;
+  const requirements = db.requirements;
+  const session = db.session;
+  const studentinfo = db.studentinfo;
   const users = db.users;
-  const rooms = db.rooms;
-  const faculty = db.faculty;
-  const sections = db.sections;
-  const courses = db.courses;
-  const buildings = db.buildings;
 
-  events.belongsTo(semesters);
-  events.belongsTo(users);
-  events.belongsTo(rooms);
+  availability.belongsTo(instructors);
 
-  facultysection.belongsTo(faculty);
-  facultysection.belongsTo(sections);
+  critiques.belongsTo(event);
 
-  favorites.belongsTo(users);
-  favorites.belongsTo(courses);
+  ensemble.belongsTo(instructors);
 
-  rooms.belongsTo(buildings);
+  event.belongsTo(ensemble);
+  event.belongsTo(studentinfo);
 
-  sections.belongsTo(courses);
-  sections.belongsTo(semesters);
+  eventsongs.belongsTo(pieces);
+  eventsongs.belongsTo(event);
 
-  sectiontime.belongsTo(sections);
-  sectiontime.belongsTo(rooms);
+  instructors.belongsTo(users);
+
+  members.belongsTo(studentinfo);
+  members.belongsTo(ensemble);
+
+  pieces.belongsTo(composers);
+
+  repertoire.belongsTo(pieces);
+  repertoire.belongsTo(studentinfo);
+
+  session.belongsTo(users);
+
+  studentinfo.belongsTo(users);
+  studentinfo.belongsTo(instructors);
+  studentinfo.belongsTo(members);
+  studentinfo.belongsTo(repertoire);
+  studentinfo.belongsTo(requirements);
 }
 
 module.exports = { addForeignKeys };
