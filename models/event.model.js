@@ -8,13 +8,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       datetime: {
-        type: Sequelize.DATETIME,
-      },
-      studentid: {
-        type: Sequelize.INTEGER,
-      },
-      ensembleid: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
       },
       id: {
         type: Sequelize.INTEGER,

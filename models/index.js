@@ -27,7 +27,7 @@ db.members = require("./members.model.js")(sequelize, Sequelize);
 db.pieces = require("./pieces.model.js")(sequelize, Sequelize);
 db.repertoire = require("./repertoire.model.js")(sequelize, Sequelize);
 db.requirements = require("./requirements.model.js")(sequelize, Sequelize);
-db.sessions = require("./sessions.model.js")(sequelize, Sequelize);
+db.session = require("./session.model.js")(sequelize, Sequelize);
 db.studentinfo = require("./studentinfo.model.js")(sequelize, Sequelize);
 db.users = require("./users.model.js")(sequelize, Sequelize);
 

@@ -2,7 +2,7 @@ module.exports = {
   HOST: "localhost",
   USER: "root",
   PASSWORD: "",
-  DB: "schedule",
+  DB: "performance",
   DIALECT: "mariadb",
   POOL: {
     max: 5,

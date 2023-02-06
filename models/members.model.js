@@ -4,12 +4,6 @@ module.exports = (sequelize, Sequelize) => {
   const Members = sequelize.define(
     "members",
     {
-      studentid: {
-        type: Sequelize.INTEGER,
-      },
-      ensembleid: {
-        type: Sequelize.INTEGER,
-      },
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

@@ -4,15 +4,6 @@ module.exports = (sequelize, Sequelize) => {
   const StudentInfo = sequelize.define(
     "studentinfo",
     {
-      instructorid: {
-        type: Sequelize.INTEGER,
-      },
-      accompanistid: {
-        type: Sequelize.INTEGER,
-      },
-      repertoireid: {
-        type: Sequelize.INTEGER,
-      },
       level: {
         type: Sequelize.INTEGER,
       },

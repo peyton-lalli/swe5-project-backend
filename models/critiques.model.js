@@ -4,10 +4,7 @@ module.exports = (sequelize, Sequelize) => {
   const Critiques = sequelize.define(
     "critiques",
     {
-      eventid: {
-        type: Sequelize.INTEGER,
-      },
-      critquetext: {
+      critiquetext: {
         type: Sequelize.STRING,
       },
       instructorid: {

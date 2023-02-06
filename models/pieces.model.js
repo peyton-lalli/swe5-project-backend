@@ -16,9 +16,6 @@ module.exports = (sequelize, Sequelize) => {
       language: {
         type: Sequelize.STRING,
       },
-      composerid: {
-        type: Sequelize.INTEGER,
-      },
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

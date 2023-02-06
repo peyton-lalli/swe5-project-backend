@@ -4,14 +4,11 @@ module.exports = (sequelize, Sequelize) => {
   const Availability = sequelize.define(
     "availability",
     {
-      personid: {
-        type: Sequelize.INTEGER,
-      },
       datetimestart: {
-        type: Sequelize.DATETIME,
+        type: Sequelize.DATE,
       },
       datetimeend: {
-        type: Sequelize.DATETIME,
+        type: Sequelize.DATE,
       },
       id: {
         type: Sequelize.INTEGER,

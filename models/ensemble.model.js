@@ -7,9 +7,6 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING,
       },
-      intsructorid: {
-        type: Sequelize.INTEGER,
-      },
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
