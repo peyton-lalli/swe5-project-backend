@@ -1,21 +1,23 @@
 module.exports = (app) => {
-  //A variable for each controller for the API to use
-  // const buildings = require("../controllers/buildings.controller.js");
-  // const courses = require("../controllers/courses.controller.js");
-  // const events = require("../controllers/events.controller.js");
-  // const faculty = require("../controllers/faculty.controller.js");
-  // const facultysection = require("../controllers/facultysection.controller.js");
-  // const favorites = require("../controllers/favorites.controller.js");
-  // const rooms = require("../controllers/rooms.controller.js");
-  // const sections = require("../controllers/sections.controller.js");
-  // const sectiontime = require("../controllers/sectiontime.controller.js");
-  // const semesters = require("../controllers/semesters.controller.js");
-  // const users = require("../controllers/users.controller.js");
-  // const auth = require("../controllers/auth.controller.js");
-  // const { authenticate } = require("../authorization/authorization.js");
+  // A variable for each controller for the API to use
+  const availability = require("../controllers/availability.controller.js");
+  const composers = require("../controllers/composers.controller.js");
+  const critiques = require("../controllers/critiques.controller.js");
+  const ensemble = require("../controllers/ensemble.controller.js");
+  const event = require("../controllers/event.controller.js");
+  const eventsongs = require("../controllers/eventsongs.controller.js");
+  const instructors = require("../controllers/instructors.controller.js");
+  const members = require("../controllers/members.controller.js");
+  const pieces = require("../controllers/pieces.controller.js");
+  const repertoire = require("../controllers/repertoire.controller.js");
+  const requirements = require("../controllers/requirements.controller.js");
+  const auth = require("../controllers/auth.controller.js");
+  const users = require("../controllers/users.controller.js");
+  const studentinfo = require("../controllers/studentinfo.controller.js");
+  const { authenticate } = require("../authorization/authorization.js");
 
-  // const fileImport = require("../controllers/filehandling.controller.js");
-  // const upload = require("../filehandling/fileUploader.js");
+  const fileImport = require("../controllers/filehandling.controller.js");
+  const upload = require("../filehandling/fileUploader.js");
 
   var router = require("express").Router();
 
@@ -27,208 +29,136 @@ module.exports = (app) => {
   router.delete();
   */
 
-  // // Login
-  // router.post("/login", auth.login);
+  //Login
+  router.post("/login", auth.login);
 
-  // // Authorization
-  // router.post("/authorize/:id", auth.authorize);
+  // Authorization
+  router.post("/authorize/:id", auth.authorize);
 
-  // // Logout
-  // router.post("/logout", auth.logout);
+  // Logout
+  router.post("/logout", auth.logout);
 
-  // // File Import
-  // router.post(
-  //   "/import/sections",
-  //   upload.single("file"),
-  //   fileImport.sectionFile
-  // );
-  // router.post("/import/courses", upload.single("file"), fileImport.courseFile);
+  //File Import
+  router.post(
+    "/import/sections",
+    upload.single("file"),
+    fileImport.sectionFile
+  );
+  router.post("/import/courses", upload.single("file"), fileImport.courseFile);
 
-  // //Buildings
-  // router.post("/buildings", [authenticate], buildings.create);
-  // router.put("/buildings/:id", [authenticate], buildings.update);
-  // router.get("/buildings", [authenticate], buildings.findAll);
-  // router.get("/buildings/name/:name", [authenticate], buildings.findName);
-  // router.delete("/buildings:id", [authenticate], buildings.delete);
+  // Availability
+  router.post("/availability", [authenticate], availability.create);
+  router.put("/availability/:id", [authenticate], availability.update);
+  router.get("/availability", [authenticate], availability.findAll);
+  router.get(
+    "/availability/:startdate",
+    [authenticate],
+    availability.findStartDate
+  );
+  router.get(
+    "/availability/:enddate",
+    [authenticate],
+    availability.findEndDate
+  );
+  router.delete("/availability/:id", [authenticate], availability.delete);
 
-  // //Courses
-  // router.post("/courses", [authenticate], courses.create);
-  // router.put("/courses/:id", [authenticate], courses.update);
-  // router.get("/courses", [authenticate], courses.findAll);
-  // router.get(
-  //   "/courses/description/:description",
-  //   [authenticate],
-  //   courses.findDescription
-  // );
-  // router.get("/courses/hours/:hours", [authenticate], courses.findHours);
-  // router.get("/courses/level/:level", [authenticate], courses.findLevel);
-  // router.get("/courses/name/:name", [authenticate], courses.findName);
-  // router.get("/courses/number/:number", [authenticate], courses.findNumber);
-  // router.get(
-  //   "/courses/semesteravailable/:semesteravailable",
-  //   [authenticate],
-  //   courses.findSemesterAvailable
-  // );
-  // router.get(
-  //   "/courses/yearavailable/:yearavailable",
-  //   [authenticate],
-  //   courses.findYearAvailable
-  // );
-  // router.get(
-  //   "/courses/searcheverything",
-  //   [authenticate],
-  //   courses.searchEverything
-  // );
-  // router.delete("/courses:id", [authenticate], courses.delete);
+  // Composers
+  router.post("/composers", [authenticate], composers.create);
+  router.put("/composers/:id", [authenticate], composers.update);
+  router.get("/composers", [authenticate], composers.findAll);
+  router.get("/composers/:name", [authenticate], composers.findName);
+  router.get("/composers/:birthyear", [authenticate], composers.findBirthYear);
+  router.get("/composers/:deathyear", [authenticate], composers.findDeathYear);
+  router.delete("/composers/:id", [authenticate], composers.delete);
 
-  // //Events
-  // router.post("/events", [authenticate], events.create);
-  // router.put("/events/:id", [authenticate], events.update);
-  // router.get("/events", [authenticate], events.findAll);
-  // router.get("/events/name/:name", [authenticate], events.findName);
-  // router.get("/events/roomid/:roomid", [authenticate], events.findRoomID);
-  // router.get(
-  //   "/events/semesterid/:semesterid",
-  //   [authenticate],
-  //   events.findSemesterID
-  // );
-  // router.get("/events/userid/:userid", [authenticate], events.findUserID);
-  // router.delete("/events:id", [authenticate], events.delete);
+  // Critiques
+  router.post("/critiques", [authenticate], critiques.create);
+  router.put("/critiques/:id", [authenticate], critiques.update);
+  router.get("/critiques", [authenticate], critiques.findAll);
+  router.get(
+    "/critiques/:instructor",
+    [authenticate],
+    critiques.findInstructor
+  );
+  router.delete("/critiques/:id", [authenticate], critiques.delete);
 
-  // //Faculty
-  // router.post("/faculty", [authenticate], faculty.create);
-  // router.put("/faculty/:id", [authenticate], faculty.update);
-  // router.get("/faculty", [authenticate], faculty.findAll);
-  // router.get("/faculty/name/:name", [authenticate], faculty.findName);
-  // router.delete("/faculty/:id", [authenticate], faculty.delete);
+  // Ensemble
+  router.post("/ensemble", [authenticate], ensemble.create);
+  router.put("/ensemble/:id", [authenticate], ensemble.update);
+  router.get("/ensemble", [authenticate], ensemble.findAll);
+  router.get("/ensemble/:name", [authenticate], ensemble.findName);
+  router.delete("/ensemble/:id", [authenticate], ensemble.delete);
 
-  // //Faculty Section
-  // router.post("/facultysection", [authenticate], facultysection.create);
-  // router.put("/facultysection:id", [authenticate], facultysection.update);
-  // router.get("/facultysection", [authenticate], facultysection.findAll);
-  // router.get(
-  //   "/facultysection/facultyid/:facultyid",
-  //   [authenticate],
-  //   facultysection.findFacultyID
-  // );
-  // router.get(
-  //   "/facultysection/sectionid/:sectionid",
-  //   [authenticate],
-  //   facultysection.findSectionID
-  // );
-  // router.delete("/facultysection/:id", [authenticate], facultysection.delete);
+  // Event
+  router.post("/event", [authenticate], event.create);
+  router.put("/event/:id", [authenticate], event.update);
+  router.get("/event", [authenticate], event.findAll);
+  router.get("/event/:type", [authenticate], event.findType);
+  router.get("/event/:date", [authenticate], event.findDate);
+  router.delete("/event/:id", [authenticate], event.delete);
 
-  // //Favorites
-  // router.post("/favorites", [authenticate], favorites.create);
-  // router.put("/favorites/:id", [authenticate], favorites.update);
-  // router.get("/favorites", [authenticate], favorites.findAll);
-  // router.get(
-  //   "/favorites/courseid/:courseid",
-  //   [authenticate],
-  //   favorites.findCourseID
-  // );
-  // router.get("/favorites/userid/:userid", [authenticate], favorites.findUserID);
-  // router.delete("/favorites/:id", [authenticate], favorites.delete);
+  // Event Songs
+  router.post("/eventsongs", [authenticate], eventsongs.create);
+  router.get("/eventsongs", [authenticate], eventsongs.findAll);
+  router.delete("/eventsongs/:id", [authenticate], eventsongs.delete);
 
-  // //Rooms
-  // router.post("/rooms", [authenticate], rooms.create);
-  // router.put("/rooms/:id", [authenticate], rooms.update);
-  // router.get("/rooms", [authenticate], rooms.findAll);
-  // router.get(
-  //   "/rooms/buildingid/:buildingid",
-  //   [authenticate],
-  //   rooms.findBuildingID
-  // );
-  // router.get("/rooms/capacity/:capacity", [authenticate], rooms.findCapacity);
-  // router.get("/rooms/number/:number", [authenticate], rooms.findNumber);
-  // router.delete("/rooms/:id", [authenticate], rooms.delete);
+  // Instructors
+  router.post("/instructors", [authenticate], instructors.create);
+  router.put("/instructors/:id", [authenticate], instructors.update);
+  router.get("/instructors", [authenticate], instructors.findAll);
+  router.get(
+    "/instructors/:googleid",
+    [authenticate],
+    instructors.findGoogleId
+  );
+  router.delete("/instructors/:id", [authenticate], instructors.delete);
 
-  // //Sections
-  // router.post("/sections", [authenticate], sections.create);
-  // router.put("/sections/:id", [authenticate], sections.update);
-  // router.get("/sections", [authenticate], sections.findAll);
-  // router.get(
-  //   "/sections/courseid/:courseid",
-  //   [authenticate],
-  //   sections.findCourseID
-  // );
-  // router.get(
-  //   "/sections/semesterid/:semesterid",
-  //   [authenticate],
-  //   sections.findSemesterID
-  // );
-  // router.delete("/sections/:id", [authenticate], sections.delete);
+  // Members
+  router.post("/members", [authenticate], members.create);
+  router.get("/members", [authenticate], members.findAll);
+  router.delete("/members/:id", [authenticate], members.delete);
 
-  // //Section Time
-  // router.post("/sectiontime", [authenticate], sectiontime.create);
-  // router.put("/sectiontime/:id", [authenticate], sectiontime.update);
-  // router.get("/sectiontime", [authenticate], sectiontime.findAll);
-  // router.get(
-  //   "sectiontime/daysofweek/:daysofweek",
-  //   [authenticate],
-  //   sectiontime.findDaysOfWeek
-  // );
-  // router.get(
-  //   "/sectiontime/enddate/:enddate",
-  //   [authenticate],
-  //   sectiontime.findEndDate
-  // );
-  // router.get(
-  //   "/sectiontime/endtime/:endtime",
-  //   [authenticate],
-  //   sectiontime.findEndTime
-  // );
-  // router.get(
-  //   "/sectiontime/roomid/:roomid",
-  //   [authenticate],
-  //   sectiontime.findRoomID
-  // );
-  // router.get(
-  //   "/sectiontime/sectionid/:sectionid",
-  //   [authenticate],
-  //   sectiontime.findSectionID
-  // );
-  // router.get(
-  //   "/sectiontime/startdate/:startdate",
-  //   [authenticate],
-  //   sectiontime.findStartDate
-  // );
-  // router.get(
-  //   "/sectiontime/starttime/:starttime",
-  //   [authenticate],
-  //   sectiontime.findStartTime
-  // );
-  // router.delete("/sectiontime/:id", [authenticate], sectiontime.delete);
+  // Pieces
+  router.post("/pieces", [authenticate], pieces.create);
+  router.put("/pieces/:id", [authenticate], pieces.update);
+  router.get("/pieces", [authenticate], pieces.findAll);
+  router.get("/pieces/:name", [authenticate], pieces.findName);
+  router.get("/pieces/:lyrics", [authenticate], pieces.findLyrics);
+  router.get("/pieces/:translation", [authenticate], pieces.findTranslation);
+  router.get("/pieces/:language", [authenticate], pieces.findLanguage);
+  router.delete("/pieces/:id", [authenticate], pieces.delete);
 
-  // //Semesters
-  // router.post("/semesters", [authenticate], semesters.create);
-  // router.put("/semesters/:id", [authenticate], semesters.update);
-  // router.get("/semesters", [authenticate], semesters.findAll);
-  // router.get("/semesters/code/:code", [authenticate], semesters.findCode);
-  // router.get(
-  //   "/semesters/enddate/:enddate",
-  //   [authenticate],
-  //   semesters.findEndDate
-  // );
-  // router.get(
-  //   "/semesters/startdate/:startdate",
-  //   [authenticate],
-  //   semesters.findStartDate
-  // );
-  // router.delete("/semesters/:id", [authenticate], semesters.delete);
+  // Repertoire
+  router.post("/repertoire", [authenticate], repertoire.create);
+  router.get("/repertoire", [authenticate], repertoire.findAll);
+  router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
-  // //Users
-  // router.post("/users", [authenticate], users.create);
-  // router.put("/users/:id", [authenticate], users.update);
-  // router.get("/users", [authenticate], users.findAll);
-  // router.get("/users/email/:email", [authenticate], users.findEmail);
-  // router.get(
-  //   "/users/facultyid/:facultyid",
-  //   [authenticate],
-  //   users.findFacultyID
-  // );
-  // router.get("/users/role/:role", [authenticate], users.findRole);
-  // router.delete("/users/:id", [authenticate], users.delete);
+  // Requirements
+  router.post("/requirements", [authenticate], requirements.create);
+  router.put("/requirements/:id", [authenticate], requirements.update);
+  router.get("/requirements", [authenticate], requirements.findAll);
+  router.get(
+    "/requirements/:classification",
+    [authenticate],
+    requirements.findClassification
+  );
+  router.get("/requirements/:name", [authenticate], requirements.findName);
+  router.get(
+    "/requirements/:description",
+    [authenticate],
+    requirements.findDescription
+  );
+  router.delete("/requirements/:id", [authenticate], requirements.delete);
+
+  //Users
+  router.post("/users", [authenticate], users.create);
+  router.put("/users/:id", [authenticate], users.update);
+  router.get("/users", [authenticate], users.findAll);
+  router.get("/users/email/:email", [authenticate], users.findEmail);
+  router.get("/users/facultyid/:role", [authenticate], users.findRole);
+  router.get("/users/role/:fName", [authenticate], users.findFName);
+  router.get("/users/role/:lName", [authenticate], users.findLName);
+  router.delete("/users/:id", [authenticate], users.delete);
 
   //The route that the API uses
   app.use("/performance-t3", router);
