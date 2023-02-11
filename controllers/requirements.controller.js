@@ -1,29 +1,29 @@
 const db = require("../models");
-const Users = db.users;
+const Requirements = db.requirements;
 const Op = db.Sequelize.Op;
 
+//Functions for the pagination
 const getPagination = (page, size) => {
   const limit = size ? +size : 25;
   const offset = page ? page * limit : 0;
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Users } = data;
+  const { count: totalItems, rows: Requirements } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Users, totalPages, currentPage };
+  return { totalItems, Requirements, totalPages, currentPage };
 };
 
-//Add an event to the database
+//Add a requirement to the database
 exports.create = (req, res) => {
-  const users = {
-    email: req.body.email,
-    role: req.body.role,
-    fName: req.body.fName,
-    lName: req.body.lName,
+  const requirements = {
+    classification: req.body.classification,
+    name: req.body.name,
+    description: req.body.description,
   };
 
-  Users.create(users)
+  Requirements.create(requirements)
     .then((data) => {
       res.send(data);
     })
@@ -34,11 +34,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the users in the database
+//Get a list of all of the requirements in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Users.findAndCountAll({ limit, offset })
+  Requirements.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -50,13 +50,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a user based on a specific First Name
-exports.findFName = (req, res) => {
+//Find a requirement based on the name
+exports.findName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const fname = req.params.fName;
-  Users.findAndCountAll({
-    where: { fName: fname },
+  const name = req.params.name;
+  Requirements.findAndCountAll({
+    where: { name: name },
     limit,
     offset,
   })
@@ -66,24 +66,24 @@ exports.findFName = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with that name`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user",
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific Last Name
-exports.findLName = (req, res) => {
+//Find a requirement based on the classification
+exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lname = req.params.lName;
-  Users.findAndCountAll({
-    where: { lName: lname },
+  const classification = req.params.classification;
+  Requirements.findAndCountAll({
+    where: { classification: classification },
     limit,
     offset,
   })
@@ -93,24 +93,24 @@ exports.findLName = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with that name`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user",
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific email
-exports.findEmail = (req, res) => {
+//Find a requirement based on the description
+exports.findDescription = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const email = req.params.email;
-  Users.findAndCountAll({
-    where: { email: email },
+  const description = req.params.description;
+  Requirements.findAndCountAll({
+    where: { description: { [Op.substring]: description } },
     limit,
     offset,
   })
@@ -120,88 +120,61 @@ exports.findEmail = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with email=${email}.`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user with email=" + email,
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific role
-exports.findRole = (req, res) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
-  const role = req.params.role;
-  Users.findAndCountAll({
-    where: { role: role },
-    limit,
-    offset,
-  })
-    .then((data) => {
-      if (data) {
-        const response = getPagingData(data, page, limit);
-        res.send(response);
-      } else {
-        res.status(404).send({
-          message: `Cannot find user with role=${role}.`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving user with role=" + role,
-      });
-    });
-};
-
-//Update a user using the id
+//Update requirements using the requirement id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Users.update(req.body, {
+  Requirements.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "User was updated successfully.",
+          message: "Requirements was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update user with id=${id}. Maybe user was not found or req.body is empty!`,
+          message: `Cannot update requirements with id=${id}. Maybe requirements was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating user with id=" + id,
+        message: "Error",
       });
     });
 };
 
-//Delete a user using the id
+//Delete requirement using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Users.destroy({
+  Requirements.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "User was deleted successfully!",
+          message: "Requirements was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete user with id=${id}. Maybe user was not found!`,
+          message: `Cannot delete requirements with id=${id}. Maybe requirements was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete user with id=" + id,
+        message: "Could not delete",
       });
     });
 };
