@@ -6,6 +6,7 @@ on:
     types: [closed]
     branches:
       - dev
+      - main
 
 jobs:
   aws-deploy:
@@ -41,21 +42,21 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "deploy/"
-          REMOTE_HOST: "project3.eaglesoftwareteam.com"
+          REMOTE_HOST: "performance.eaglesoftwareteam.com"
           REMOTE_USER: ubuntu
-          TARGET: "nodeapps/2022/project3/t3"
+          TARGET: "nodeapps/performance/t3"
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         env:
           NAME: "Root"
         with:
-          hosts: "ubuntu@tutorial.eaglesoftwareteam.com"
+          hosts: "ubuntu@performance.eaglesoftwareteam.com"
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
-            cd nodeapps/2022/project3/t3
+            cd nodeapps/performance/t3
             npm install
-            sudo systemctl stop course-t3-backend.service
-            sudo cp course-t3-backend.service /lib/systemd/system/course-t3-backend.service
+            sudo systemctl stop performance-t3-backend.service
+            sudo cp .service /lib/systemd/system/performance-t3-backend.service
             sudo systemctl daemon-reload
-            sudo systemctl start course-t3-backend.service
+            sudo systemctl start performance-t3-backend.service
