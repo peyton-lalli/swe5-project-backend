@@ -1,10 +1,10 @@
 {
-  "name": "swe4-project-3-backend",
+  "name": "swe5-project-backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json project3-backend.service .env deploy"
+    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json performance-t3-backend.service .env deploy"
   },
   "dependencies": {
     "body": "^5.1.0",

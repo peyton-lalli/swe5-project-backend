@@ -1,5 +1,5 @@
 [Unit]
-Description=NodeJS Scheduling App
+Description=NodeJS Music Performance Management System
 After=network.target
  
 [Service]
