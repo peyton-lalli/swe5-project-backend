@@ -1,29 +1,31 @@
 const db = require("../models");
-const Users = db.users;
+const StudentInfo = db.studentinfo;
 const Op = db.Sequelize.Op;
 
+//Functions for the pagination
 const getPagination = (page, size) => {
   const limit = size ? +size : 25;
   const offset = page ? page * limit : 0;
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Users } = data;
+  const { count: totalItems, rows: StudentInfo } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Users, totalPages, currentPage };
+  return { totalItems, StudentInfo, totalPages, currentPage };
 };
 
-//Add an event to the database
+//Add a student to the database
 exports.create = (req, res) => {
-  const users = {
-    email: req.body.email,
-    role: req.body.role,
-    fName: req.body.fName,
-    lName: req.body.lName,
+  const studentinfo = {
+    level: req.body.level,
+    major: req.body.major,
+    classification: req.body.classification,
+    googleid: req.body.googleid,
+    instrument: req.body.instrument,
   };
 
-  Users.create(users)
+  StudentInfo.create(studentinfo)
     .then((data) => {
       res.send(data);
     })
@@ -34,11 +36,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the users in the database
+//Get a list of all of the students in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Users.findAndCountAll({ limit, offset })
+  StudentInfo.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -50,13 +52,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a user based on a specific First Name
-exports.findFName = (req, res) => {
+//Find a student based on the level
+exports.findLevel = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const fname = req.params.fName;
-  Users.findAndCountAll({
-    where: { fName: fname },
+  const level = req.params.level;
+  StudentInfo.findAndCountAll({
+    where: { level: level },
     limit,
     offset,
   })
@@ -66,24 +68,24 @@ exports.findFName = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with that name`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user",
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific Last Name
-exports.findLName = (req, res) => {
+//Find a student based on the major
+exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lname = req.params.lName;
-  Users.findAndCountAll({
-    where: { lName: lname },
+  const major = req.params.major;
+  StudentInfo.findAndCountAll({
+    where: { major: major },
     limit,
     offset,
   })
@@ -93,24 +95,24 @@ exports.findLName = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with that name`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user",
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific email
-exports.findEmail = (req, res) => {
+//Find a student based on the classification
+exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const email = req.params.email;
-  Users.findAndCountAll({
-    where: { email: email },
+  const classification = req.params.classification;
+  StudentInfo.findAndCountAll({
+    where: { classification: classification },
     limit,
     offset,
   })
@@ -120,24 +122,24 @@ exports.findEmail = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with email=${email}.`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user with email=" + email,
+        message: "Error",
       });
     });
 };
 
-//Find a user based on a specific role
-exports.findRole = (req, res) => {
+//Find a student based on the googleid
+exports.findGoogleId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const role = req.params.role;
-  Users.findAndCountAll({
-    where: { role: role },
+  const googleid = req.params.googleid;
+  StudentInfo.findAndCountAll({
+    where: { googleid: googleid },
     limit,
     offset,
   })
@@ -147,61 +149,88 @@ exports.findRole = (req, res) => {
         res.send(response);
       } else {
         res.status(404).send({
-          message: `Cannot find user with role=${role}.`,
+          message: `Not Found`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving user with role=" + role,
+        message: "Error",
       });
     });
 };
 
-//Update a user using the id
+//Find a student based on the instrument
+exports.findInstrument = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const instrument = req.params.instrument;
+  StudentInfo.findAndCountAll({
+    where: { instrument: instrument },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
+//Update studentinfo using the id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Users.update(req.body, {
+  StudentInfo.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "User was updated successfully.",
+          message: "StudentInfo was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update user with id=${id}. Maybe user was not found or req.body is empty!`,
+          message: `Cannot update studentinfo with id=${id}. Maybe studentinfo was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating user with id=" + id,
+        message: "Error",
       });
     });
 };
 
-//Delete a user using the id
+//Delete studentinfo using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Users.destroy({
+  StudentInfo.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "User was deleted successfully!",
+          message: "StudentInfo was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete user with id=${id}. Maybe user was not found!`,
+          message: `Cannot delete studentinfo with id=${id}. Maybe studentinfo was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete user with id=" + id,
+        message: "Could not delete",
       });
     });
 };

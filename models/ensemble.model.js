@@ -1,7 +1,7 @@
 const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
-  const Ensemle = sequelize.define(
+  const Ensemble = sequelize.define(
     "ensemble",
     {
       name: {
@@ -16,5 +16,5 @@ module.exports = (sequelize, Sequelize) => {
     },
     { timestamps: false }
   );
-  return Ensemle;
+  return Ensemble;
 };
