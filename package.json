@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json performance-t3-backend.service .env deploy"
+    "bundle": "mkdir deploy && cp -r app.js package.json package-lock.json performance-t3-backend.service .env deploy"
   },
   "dependencies": {
     "body": "^5.1.0",
