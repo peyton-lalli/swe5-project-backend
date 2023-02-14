@@ -49,7 +49,7 @@ jobs:
         env:
           NAME: "Root"
         with:
-          hosts: "ubuntu@performance.eaglesoftwareteam.com"
+          hosts: "ubuntu@perform.eaglesoftwareteam.com"
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
