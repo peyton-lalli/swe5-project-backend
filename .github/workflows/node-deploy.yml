@@ -56,6 +56,6 @@ jobs:
             cd nodeapps/performance/t3
             npm install
             sudo systemctl stop performance-t3-backend.service
-            sudo cp .service /lib/systemd/system/performance-t3-backend.service
+            sudo cp performance-t3-backend.service /lib/systemd/system/performance-t3-backend.service
             sudo systemctl daemon-reload
             sudo systemctl start performance-t3-backend.service
