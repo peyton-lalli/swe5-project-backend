@@ -8,8 +8,8 @@ module.exports = {
   USER: db_user,
   PASSWORD: db_pw,
   DB: db_name,
-  dialect: "mariadb",
-  pool: {
+  DIALECT: "mariadb",
+  POOL: {
     max: 5,
     min: 0,
     acquire: 30000,
