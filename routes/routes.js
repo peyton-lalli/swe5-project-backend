@@ -63,13 +63,21 @@ module.exports = (app) => {
   router.delete("/availability/:id", [authenticate], availability.delete);
 
   // Composers
-  router.post("/composers", [authenticate], composers.create);
-  router.put("/composers/:id", [authenticate], composers.update);
-  router.get("/composers", [authenticate], composers.findAll);
-  router.get("/composers/:name", [authenticate], composers.findName);
-  router.get("/composers/:birthyear", [authenticate], composers.findBirthYear);
-  router.get("/composers/:deathyear", [authenticate], composers.findDeathYear);
-  router.delete("/composers/:id", [authenticate], composers.delete);
+  // router.post("/composers", [authenticate], composers.create);
+  // router.put("/composers/:id", [authenticate], composers.update);
+  // router.get("/composers", [authenticate], composers.findAll);
+  // router.get("/composers/:name", [authenticate], composers.findName);
+  // router.get("/composers/:birthyear", [authenticate], composers.findBirthYear);
+  // router.get("/composers/:deathyear", [authenticate], composers.findDeathYear);
+  // router.delete("/composers/:id", [authenticate], composers.delete);
+
+  router.post("/composers", composers.create);
+  router.put("/composers/:id", composers.update);
+  router.get("/composers", composers.findAll);
+  router.get("/composers/:name", composers.findName);
+  router.get("/composers/:birthyear", composers.findBirthYear);
+  router.get("/composers/:deathyear", composers.findDeathYear);
+  router.delete("/composers/:id", composers.delete);
 
   // Critiques
   router.post("/critiques", [authenticate], critiques.create);
