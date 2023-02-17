@@ -16,9 +16,6 @@ module.exports = (app) => {
   const studentinfo = require("../controllers/studentinfo.controller.js");
   const { authenticate } = require("../authorization/authorization.js");
 
-  const fileImport = require("../controllers/filehandling.controller.js");
-  const upload = require("../filehandling/fileUploader.js");
-
   var router = require("express").Router();
 
   /*
@@ -37,14 +34,6 @@ module.exports = (app) => {
 
   // Logout
   router.post("/logout", auth.logout);
-
-  //File Import
-  router.post(
-    "/import/sections",
-    upload.single("file"),
-    fileImport.sectionFile
-  );
-  router.post("/import/courses", upload.single("file"), fileImport.courseFile);
 
   // Availability
   router.post("/availability", [authenticate], availability.create);
@@ -74,9 +63,9 @@ module.exports = (app) => {
   router.post("/composers", composers.create);
   router.put("/composers/:id", composers.update);
   router.get("/composers", composers.findAll);
-  router.get("/composers/:name", composers.findName);
-  router.get("/composers/:birthyear", composers.findBirthYear);
-  router.get("/composers/:deathyear", composers.findDeathYear);
+  router.get("/composers/name/:name", composers.findName);
+  router.get("/composers/birthyear/:birthyear", composers.findBirthYear);
+  router.get("/composers/deathyear/:deathyear", composers.findDeathYear);
   router.delete("/composers/:id", composers.delete);
 
   // Critiques
@@ -84,7 +73,7 @@ module.exports = (app) => {
   router.put("/critiques/:id", [authenticate], critiques.update);
   router.get("/critiques", [authenticate], critiques.findAll);
   router.get(
-    "/critiques/:instructor",
+    "/critiques/instructor/:instructor",
     [authenticate],
     critiques.findInstructor
   );
@@ -94,15 +83,15 @@ module.exports = (app) => {
   router.post("/ensemble", [authenticate], ensemble.create);
   router.put("/ensemble/:id", [authenticate], ensemble.update);
   router.get("/ensemble", [authenticate], ensemble.findAll);
-  router.get("/ensemble/:name", [authenticate], ensemble.findName);
+  router.get("/ensemble/name/:name", [authenticate], ensemble.findName);
   router.delete("/ensemble/:id", [authenticate], ensemble.delete);
 
   // Event
   router.post("/event", [authenticate], event.create);
   router.put("/event/:id", [authenticate], event.update);
   router.get("/event", [authenticate], event.findAll);
-  router.get("/event/:type", [authenticate], event.findType);
-  router.get("/event/:date", [authenticate], event.findDate);
+  router.get("/event/type/:type", [authenticate], event.findType);
+  router.get("/event/date/:date", [authenticate], event.findDate);
   router.delete("/event/:id", [authenticate], event.delete);
 
   // Event Songs
@@ -115,7 +104,7 @@ module.exports = (app) => {
   router.put("/instructors/:id", [authenticate], instructors.update);
   router.get("/instructors", [authenticate], instructors.findAll);
   router.get(
-    "/instructors/:googleid",
+    "/instructors/googleid/:googleid",
     [authenticate],
     instructors.findGoogleId
   );
@@ -130,10 +119,14 @@ module.exports = (app) => {
   router.post("/pieces", [authenticate], pieces.create);
   router.put("/pieces/:id", [authenticate], pieces.update);
   router.get("/pieces", [authenticate], pieces.findAll);
-  router.get("/pieces/:name", [authenticate], pieces.findName);
-  router.get("/pieces/:lyrics", [authenticate], pieces.findLyrics);
-  router.get("/pieces/:translation", [authenticate], pieces.findTranslation);
-  router.get("/pieces/:language", [authenticate], pieces.findLanguage);
+  router.get("/pieces/name/:name", [authenticate], pieces.findName);
+  router.get("/pieces/lyrics/:lyrics", [authenticate], pieces.findLyrics);
+  router.get(
+    "/pieces/translation/:translation",
+    [authenticate],
+    pieces.findTranslation
+  );
+  router.get("/pieces/language/:language", [authenticate], pieces.findLanguage);
   router.delete("/pieces/:id", [authenticate], pieces.delete);
 
   // Repertoire
@@ -146,26 +139,57 @@ module.exports = (app) => {
   router.put("/requirements/:id", [authenticate], requirements.update);
   router.get("/requirements", [authenticate], requirements.findAll);
   router.get(
-    "/requirements/:classification",
+    "/requirements/classification/:classification",
     [authenticate],
     requirements.findClassification
   );
-  router.get("/requirements/:name", [authenticate], requirements.findName);
+  router.get("/requirements/name/:name", [authenticate], requirements.findName);
   router.get(
-    "/requirements/:description",
+    "/requirements/description/:description",
     [authenticate],
     requirements.findDescription
   );
   router.delete("/requirements/:id", [authenticate], requirements.delete);
+
+  // StudentInfo
+  router.post("/studentinfo", [authenticate], studentinfo.create);
+  router.put("/studentinfo/:id", [authenticate], studentinfo.update);
+  router.get("/studentinfo", [authenticate], studentinfo.findAll);
+  router.get(
+    "/studentinfo/level/:level",
+    [authenticate],
+    studentinfo.findLevel
+  );
+  router.get(
+    "/studentinfo/major/:major",
+    [authenticate],
+    studentinfo.findMajor
+  );
+  router.get(
+    "/studentinfo/classification/:classification",
+    [authenticate],
+    studentinfo.findClassification
+  );
+  router.get(
+    "/studentinfo/googleid/:googleid",
+    [authenticate],
+    studentinfo.findGoogleId
+  );
+  router.get(
+    "/studentinfo/instrument/:instrument",
+    [authenticate],
+    studentinfo.findInstrument
+  );
+  router.delete("/studentinfo/:id", [authenticate], studentinfo.delete);
 
   //Users
   router.post("/users", [authenticate], users.create);
   router.put("/users/:id", [authenticate], users.update);
   router.get("/users", [authenticate], users.findAll);
   router.get("/users/email/:email", [authenticate], users.findEmail);
-  router.get("/users/facultyid/:role", [authenticate], users.findRole);
-  router.get("/users/role/:fName", [authenticate], users.findFName);
-  router.get("/users/role/:lName", [authenticate], users.findLName);
+  router.get("/users/role/:role", [authenticate], users.findRole);
+  router.get("/users/first-name/:fName", [authenticate], users.findFName);
+  router.get("/users/last-name/:lName", [authenticate], users.findLName);
   router.delete("/users/:id", [authenticate], users.delete);
 
   //The route that the API uses

@@ -2,8 +2,6 @@ require("dotenv").config();
 var express = require("express");
 var path = require("path");
 var cors = require("cors");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 var app = express();
 
@@ -37,13 +35,5 @@ const PORT = process.env.PORT || 3023;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-app.post("/upload_files", upload.array("files"), uploadFiles);
-
-function uploadFiles(req, res) {
-  console.log(req.body);
-  console.log(req.files);
-  res.json({ message: "Successfully uploaded files" });
-}
 
 module.exports = app;

@@ -80,7 +80,7 @@ exports.findLevel = (req, res) => {
 };
 
 //Find a student based on the major
-exports.findClassification = (req, res) => {
+exports.findMajor = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const major = req.params.major;
@@ -101,7 +101,7 @@ exports.findClassification = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error",
+        message: err,
       });
     });
 };
@@ -128,7 +128,7 @@ exports.findClassification = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error",
+        message: err,
       });
     });
 };
