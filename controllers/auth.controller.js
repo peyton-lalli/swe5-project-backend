@@ -31,8 +31,7 @@ exports.login = async (req, res) => {
   let email = googleUser.email;
   let firstName = googleUser.given_name;
   let lastName = googleUser.family_name;
-
-  console.log(lastName);
+  //let role = User.role;
 
   let user = {};
 
@@ -113,6 +112,7 @@ exports.login = async (req, res) => {
         lName: user.lName,
         userId: user.id,
         token: token,
+        role: user.role,
         // refresh_token: user.refresh_token,
         // expiration_date: user.expiration_date
       };
