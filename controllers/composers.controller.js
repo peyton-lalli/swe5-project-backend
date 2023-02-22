@@ -17,6 +17,12 @@ const getPagingData = (data, page, limit) => {
 
 //Add a composer to the database
 exports.create = (req, res) => {
+  if (!req.body.name) {
+    res.status(400).send({
+      message: "Number cannot be empty!",
+    });
+  }
+
   const composers = {
     name: req.body.name,
     birthyear: req.body.birthyear,
