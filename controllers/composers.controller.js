@@ -9,32 +9,6 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  //Find an instructors based on the title
-  exports.findTitle = (req, res) => {
-    const { page, size } = req.query;
-    const { limit, offset } = getPagination(page, size);
-    const title = req.params.id;
-    Instructors.findAndCountAll({
-      where: { title: title },
-      limit,
-      offset,
-    })
-      .then((data) => {
-        if (data) {
-          const response = getPagingData(data, page, limit);
-          res.send(response);
-        } else {
-          res.status(404).send({
-            message: `Not Found`,
-          });
-        }
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: "Error",
-        });
-      });
-  };
   const { count: totalItems, rows: Composers } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
@@ -80,7 +54,7 @@ exports.findAll = (req, res) => {
 exports.findName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.id;
+  const name = req.params.name;
   Composers.findAndCountAll({
     where: { name: name },
     limit,
@@ -107,7 +81,7 @@ exports.findName = (req, res) => {
 exports.findBirthYear = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const year = req.params.id;
+  const year = req.params.birthyear;
   Composers.findAndCountAll({
     where: { birthyear: year },
     limit,
@@ -134,7 +108,7 @@ exports.findBirthYear = (req, res) => {
 exports.findDeathYear = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const year = req.params.id;
+  const year = req.params.deathyear;
   Composers.findAndCountAll({
     where: { deathyear: year },
     limit,

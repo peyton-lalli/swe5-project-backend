@@ -53,7 +53,7 @@ exports.findAll = (req, res) => {
 exports.findUserId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const userId = req.params.id;
+  const userId = req.params.userId;
   Instructors.findAndCountAll({
     where: { userId: userId },
     limit,
@@ -80,7 +80,7 @@ exports.findUserId = (req, res) => {
 exports.findTitle = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const title = req.params.id;
+  const title = req.params.title;
   Instructors.findAndCountAll({
     where: { title: title },
     limit,
@@ -107,7 +107,7 @@ exports.findTitle = (req, res) => {
 exports.findGoogleId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const googleid = req.params.id;
+  const googleid = req.params.googleid;
   Instructors.findAndCountAll({
     where: { googleid: googleid },
     limit,

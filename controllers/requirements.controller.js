@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
 exports.findName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.id;
+  const name = req.params.name;
   Requirements.findAndCountAll({
     where: { name: name },
     limit,
@@ -81,7 +81,7 @@ exports.findName = (req, res) => {
 exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const classification = req.params.if;
+  const classification = req.params.classification;
   Requirements.findAndCountAll({
     where: { classification: classification },
     limit,
@@ -108,7 +108,7 @@ exports.findClassification = (req, res) => {
 exports.findDescription = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const description = req.params.id;
+  const description = req.params.description;
   Requirements.findAndCountAll({
     where: { description: { [Op.substring]: description } },
     limit,

@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
 exports.findFName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const fname = req.params.id;
+  const fname = req.params.fName;
   Users.findAndCountAll({
     where: { fName: fname },
     limit,
@@ -81,7 +81,7 @@ exports.findFName = (req, res) => {
 exports.findLName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lname = req.params.id;
+  const lname = req.params.lName;
   Users.findAndCountAll({
     where: { lName: lname },
     limit,
@@ -108,7 +108,7 @@ exports.findLName = (req, res) => {
 exports.findEmail = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const email = req.params.id;
+  const email = req.params.email;
   Users.findAndCountAll({
     where: { email: email },
     limit,
@@ -135,7 +135,7 @@ exports.findEmail = (req, res) => {
 exports.findRole = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const role = req.params.id;
+  const role = req.params.role;
   Users.findAndCountAll({
     where: { role: role },
     limit,

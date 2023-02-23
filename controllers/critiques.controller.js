@@ -53,7 +53,7 @@ exports.findAll = (req, res) => {
 exports.findInstructor = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const id = req.params.id;
+  const id = req.params.instructorid;
   Critiques.findAndCountAll({
     where: { instructorid: id },
     limit,

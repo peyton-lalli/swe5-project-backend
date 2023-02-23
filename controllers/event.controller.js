@@ -53,7 +53,7 @@ exports.findAll = (req, res) => {
 exports.findType = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const type = req.params.id;
+  const type = req.params.type;
   Event.findAndCountAll({
     where: { type: type },
     limit,
@@ -80,7 +80,7 @@ exports.findType = (req, res) => {
 exports.findDate = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const date = req.params.id;
+  const date = req.params.datetime;
   Event.findAndCountAll({
     where: { datetime: date },
     limit,
