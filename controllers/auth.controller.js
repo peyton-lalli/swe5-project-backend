@@ -113,6 +113,7 @@ exports.login = async (req, res) => {
         userId: user.id,
         token: token,
         role: user.role,
+        picture: googleUser["picture"],
         // refresh_token: user.refresh_token,
         // expiration_date: user.expiration_date
       };

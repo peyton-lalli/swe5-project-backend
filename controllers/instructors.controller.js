@@ -53,7 +53,7 @@ exports.findAll = (req, res) => {
 exports.findUserId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const userId = req.params.userId;
+  const userId = req.params.userid;
   Instructors.findAndCountAll({
     where: { userId: userId },
     limit,
