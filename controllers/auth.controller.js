@@ -114,10 +114,7 @@ exports.login = async (req, res) => {
         token: token,
         role: user.role,
         picture: googleUser["picture"],
-        // refresh_token: user.refresh_token,
-        // expiration_date: user.expiration_date
       };
-      console.log(userInfo);
       res.send(userInfo);
     })
     .catch((err) => {
