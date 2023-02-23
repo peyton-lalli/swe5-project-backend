@@ -55,7 +55,7 @@ exports.findAll = (req, res) => {
 exports.findName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.name;
+  const name = req.params.id;
   Pieces.findAndCountAll({
     where: { name: name },
     limit,
@@ -82,7 +82,7 @@ exports.findName = (req, res) => {
 exports.findLyrics = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lyrics = req.params.lyrics;
+  const lyrics = req.params.id;
   Pieces.findAndCountAll({
     where: { lyrics: { [Op.substring]: lyrics } },
     limit,
@@ -109,7 +109,7 @@ exports.findLyrics = (req, res) => {
 exports.findTranslation = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const translation = req.params.translation;
+  const translation = req.params.id;
   Pieces.findAndCountAll({
     where: { translation: { [Op.substring]: translation } },
     limit,
@@ -136,7 +136,7 @@ exports.findTranslation = (req, res) => {
 exports.findLanguage = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const language = req.params.language;
+  const language = req.params.id;
   Pieces.findAndCountAll({
     where: { langauge: language },
     limit,

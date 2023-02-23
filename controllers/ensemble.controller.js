@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
 exports.findName = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.name;
+  const name = req.params.id;
   Ensemble.findAndCountAll({
     where: { name: name },
     limit,

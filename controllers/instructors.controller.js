@@ -49,11 +49,38 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find an instructors based on the user ID
+exports.findUserId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const userId = req.params.id;
+  Instructors.findAndCountAll({
+    where: { userId: userId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Find an instructors based on the title
 exports.findTitle = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const title = req.params.title;
+  const title = req.params.id;
   Instructors.findAndCountAll({
     where: { title: title },
     limit,
@@ -80,7 +107,7 @@ exports.findTitle = (req, res) => {
 exports.findGoogleId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const googleid = req.params.googleid;
+  const googleid = req.params.id;
   Instructors.findAndCountAll({
     where: { googleid: googleid },
     limit,

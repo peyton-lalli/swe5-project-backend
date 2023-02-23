@@ -56,7 +56,7 @@ exports.findAll = (req, res) => {
 exports.findLevel = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const level = req.params.level;
+  const level = req.params.id;
   StudentInfo.findAndCountAll({
     where: { level: level },
     limit,
@@ -83,7 +83,7 @@ exports.findLevel = (req, res) => {
 exports.findMajor = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const major = req.params.major;
+  const major = req.params.id;
   StudentInfo.findAndCountAll({
     where: { major: major },
     limit,
@@ -110,7 +110,7 @@ exports.findMajor = (req, res) => {
 exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const classification = req.params.classification;
+  const classification = req.params.id;
   StudentInfo.findAndCountAll({
     where: { classification: classification },
     limit,
@@ -137,7 +137,7 @@ exports.findClassification = (req, res) => {
 exports.findGoogleId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const googleid = req.params.googleid;
+  const googleid = req.params.id;
   StudentInfo.findAndCountAll({
     where: { googleid: googleid },
     limit,
@@ -164,7 +164,7 @@ exports.findGoogleId = (req, res) => {
 exports.findInstrument = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const instrument = req.params.instrument;
+  const instrument = req.params.id;
   StudentInfo.findAndCountAll({
     where: { instrument: instrument },
     limit,

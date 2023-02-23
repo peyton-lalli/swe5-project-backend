@@ -53,7 +53,7 @@ exports.findAll = (req, res) => {
 exports.findStartDate = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const date = req.params.datetimestart;
+  const date = req.params.id;
   Availability.findAndCountAll({
     where: { datetimestart: date },
     limit,
@@ -80,7 +80,7 @@ exports.findStartDate = (req, res) => {
 exports.findEndDate = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const date = req.params.datetimeend;
+  const date = req.params.id;
   Availability.findAndCountAll({
     where: { datetimeend: date },
     limit,
