@@ -46,6 +46,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find repertoire based on student info id
+exports.findStudentInfoId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const studentinfoid = req.params.studentinfoid;
+  Repertoire.findAndCountAll({
+    where: { studentinfoId: studentinfoid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Delete repertoire using the id
 exports.delete = (req, res) => {
   const id = req.params.id;

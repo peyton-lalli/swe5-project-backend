@@ -23,12 +23,17 @@ db.ensemble = require("./ensemble.model.js")(sequelize, Sequelize);
 db.event = require("./event.model.js")(sequelize, Sequelize);
 db.eventsongs = require("./eventsongs.model.js")(sequelize, Sequelize);
 db.instructors = require("./instructors.model.js")(sequelize, Sequelize);
+db.instruments = require("./instruments.model.js")(sequelize, Sequelize);
 db.members = require("./members.model.js")(sequelize, Sequelize);
 db.pieces = require("./pieces.model.js")(sequelize, Sequelize);
 db.repertoire = require("./repertoire.model.js")(sequelize, Sequelize);
 db.requirements = require("./requirements.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.studentinfo = require("./studentinfo.model.js")(sequelize, Sequelize);
+db.studentinstruments = require("./studentinstruments.model.js")(
+  sequelize,
+  Sequelize
+);
 db.users = require("./users.model.js")(sequelize, Sequelize);
 
 // Add Foreign Keys

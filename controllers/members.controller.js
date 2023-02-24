@@ -46,6 +46,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find members based on ensemble id
+exports.findEnsembleId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const ensembleid = req.params.ensembleid;
+  Members.findAndCountAll({
+    where: { ensembleId: ensembleid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Delete members using the id
 exports.delete = (req, res) => {
   const id = req.params.id;

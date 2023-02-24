@@ -22,7 +22,6 @@ exports.create = (req, res) => {
     major: req.body.major,
     classification: req.body.classification,
     googleid: req.body.googleid,
-    instrument: req.body.instrument,
   };
 
   StudentInfo.create(studentinfo)
@@ -48,6 +47,33 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find a student info based on the user Id
+exports.findUserId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const userid = req.params.userid;
+  StudentInfo.findAndCountAll({
+    where: { userId: userid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };
@@ -140,33 +166,6 @@ exports.findGoogleId = (req, res) => {
   const googleid = req.params.googleid;
   StudentInfo.findAndCountAll({
     where: { googleid: googleid },
-    limit,
-    offset,
-  })
-    .then((data) => {
-      if (data) {
-        const response = getPagingData(data, page, limit);
-        res.send(response);
-      } else {
-        res.status(404).send({
-          message: `Not Found`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error",
-      });
-    });
-};
-
-//Find a student based on the instrument
-exports.findInstrument = (req, res) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
-  const instrument = req.params.instrument;
-  StudentInfo.findAndCountAll({
-    where: { instrument: instrument },
     limit,
     offset,
   })
