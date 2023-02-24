@@ -7,6 +7,9 @@ module.exports = (sequelize, Sequelize) => {
       googleid: {
         type: Sequelize.INTEGER,
       },
+      title: {
+        type: Sequelize.STRING,
+      },
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

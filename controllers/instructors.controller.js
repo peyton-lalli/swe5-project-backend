@@ -19,6 +19,7 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const instructors = {
     googleid: req.body.googleid,
+    title: req.body.title,
   };
 
   Instructors.create(instructors)
@@ -44,6 +45,60 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find an instructors based on the user ID
+exports.findUserId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const userId = req.params.userid;
+  Instructors.findAndCountAll({
+    where: { userId: userId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
+//Find an instructors based on the title
+exports.findTitle = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const title = req.params.title;
+  Instructors.findAndCountAll({
+    where: { title: title },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };

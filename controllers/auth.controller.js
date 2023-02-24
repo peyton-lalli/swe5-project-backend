@@ -113,10 +113,8 @@ exports.login = async (req, res) => {
         userId: user.id,
         token: token,
         role: user.role,
-        // refresh_token: user.refresh_token,
-        // expiration_date: user.expiration_date
+        picture: googleUser["picture"],
       };
-      console.log(userInfo);
       res.send(userInfo);
     })
     .catch((err) => {

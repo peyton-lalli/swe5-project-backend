@@ -104,6 +104,16 @@ module.exports = (app) => {
   router.put("/instructors/:id", [authenticate], instructors.update);
   router.get("/instructors", [authenticate], instructors.findAll);
   router.get(
+    "/instructors/userid/:userid",
+    [authenticate],
+    instructors.findUserId
+  );
+  router.get(
+    "/instructors/title/:title",
+    [authenticate],
+    instructors.findTitle
+  );
+  router.get(
     "/instructors/googleid/:googleid",
     [authenticate],
     instructors.findGoogleId
