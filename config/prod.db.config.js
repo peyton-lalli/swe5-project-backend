@@ -1,7 +1,7 @@
-const db_host = process.env.DB_HOST;
-const db_pw = process.env.DB_PW;
-const db_user = process.env.DB_USER;
-const db_name = process.env.DB_NAME;
+const db_host = process.env.AWS_DB_HOST;
+const db_pw = process.env.AWS_DB_PW;
+const db_user = process.env.AWS_DB_USER;
+const db_name = process.env.AWS_DB_NAME;
 
 module.exports = {
   HOST: db_host,
