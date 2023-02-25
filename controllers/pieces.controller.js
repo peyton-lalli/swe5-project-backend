@@ -22,6 +22,7 @@ exports.create = (req, res) => {
     lyrics: req.body.lyrics,
     translation: req.body.translation,
     language: req.body.language,
+    composerId: req.body.composerId,
   };
 
   Pieces.create(pieces)

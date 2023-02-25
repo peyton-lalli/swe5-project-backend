@@ -20,6 +20,7 @@ exports.create = (req, res) => {
   const availability = {
     datetimestart: req.body.datetimestart,
     datetimeend: req.body.datetimeend,
+    instructorId: req.body.instructorId,
   };
 
   Availability.create(availability)

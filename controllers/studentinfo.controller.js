@@ -22,6 +22,11 @@ exports.create = (req, res) => {
     major: req.body.major,
     classification: req.body.classification,
     googleid: req.body.googleid,
+    userId: req.body.userId,
+    instructorId: req.body.instructorsId,
+    memberId: req.body.memberId,
+    repertoireId: req.body.repertoireId,
+    requirementId: req.body.requirementId,
   };
 
   StudentInfo.create(studentinfo)

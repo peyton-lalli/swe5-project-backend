@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an repertoire to the database
 exports.create = (req, res) => {
-  const repertoire = {};
+  const repertoire = {
+    piecesId: req.body.piecesId,
+    studentinfoId: req.body.studentinfoId,
+  };
 
   Repertoire.create(repertoire)
     .then((data) => {

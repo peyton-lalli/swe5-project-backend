@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an instrument to the database
 exports.create = (req, res) => {
-  const studentinstruments = {};
+  const studentinstruments = {
+    studentinfoId: req.body.studentinfoId,
+    instrumentId: req.body.instrumentId,
+  };
 
   StudentInstruments.create(studentinstruments)
     .then((data) => {

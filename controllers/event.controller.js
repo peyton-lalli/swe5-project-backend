@@ -20,6 +20,8 @@ exports.create = (req, res) => {
   const event = {
     type: req.body.type,
     datetime: req.body.datetime,
+    ensembleId: req.body.ensembleId,
+    studentinfoId: req.body.studentinfoId,
   };
 
   Event.create(event)

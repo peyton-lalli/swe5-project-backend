@@ -20,6 +20,7 @@ exports.create = (req, res) => {
   const instructors = {
     googleid: req.body.googleid,
     title: req.body.title,
+    userId: req.body.userId,
   };
 
   Instructors.create(instructors)

@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an members to the database
 exports.create = (req, res) => {
-  const members = {};
+  const members = {
+    studentinfoId: req.body.studentinfoId,
+    ensembleId: req.body.ensembleId,
+  };
 
   Members.create(members)
     .then((data) => {

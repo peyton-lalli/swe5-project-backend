@@ -19,6 +19,7 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const ensemble = {
     name: req.body.name,
+    instructorId: req.body.instructorId,
   };
 
   Ensemble.create(ensemble)
