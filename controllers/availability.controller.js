@@ -20,6 +20,7 @@ exports.create = (req, res) => {
   const availability = {
     datetimestart: req.body.datetimestart,
     datetimeend: req.body.datetimeend,
+    instructorId: req.body.instructorId,
   };
 
   Availability.create(availability)
@@ -45,6 +46,60 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find availability based on a specific instructor Id
+exports.findInstructorId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const instructorid = req.params.instructorid;
+  Availability.findAndCountAll({
+    where: { instructorId: instructorid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
+//Find availability based on a specific Id
+exports.findId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Availability.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };

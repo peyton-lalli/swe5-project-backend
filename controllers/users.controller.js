@@ -50,6 +50,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find a user based on id
+exports.findId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Users.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Cannot find user with that name`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving user",
+      });
+    });
+};
+
 //Find a user based on a specific First Name
 exports.findFName = (req, res) => {
   const { page, size } = req.query;

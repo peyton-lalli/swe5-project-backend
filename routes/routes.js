@@ -7,6 +7,8 @@ module.exports = (app) => {
   const event = require("../controllers/event.controller.js");
   const eventsongs = require("../controllers/eventsongs.controller.js");
   const instructors = require("../controllers/instructors.controller.js");
+  const instruments = require("../controllers/instruments.controller.js");
+  const studentinstruments = require("../controllers/studentinstruments.controller.js");
   const members = require("../controllers/members.controller.js");
   const pieces = require("../controllers/pieces.controller.js");
   const repertoire = require("../controllers/repertoire.controller.js");
@@ -39,13 +41,19 @@ module.exports = (app) => {
   router.post("/availability", [authenticate], availability.create);
   router.put("/availability/:id", [authenticate], availability.update);
   router.get("/availability", [authenticate], availability.findAll);
+  router.get("/availability/id/:id", [authenticate], availability.findId);
   router.get(
-    "/availability/:startdate",
+    "/availability/instructorid/:instructorid",
+    [authenticate],
+    availability.findInstructorId
+  );
+  router.get(
+    "/availability/startdate/:startdate",
     [authenticate],
     availability.findStartDate
   );
   router.get(
-    "/availability/:enddate",
+    "/availability/enddate/:enddate",
     [authenticate],
     availability.findEndDate
   );
@@ -83,6 +91,11 @@ module.exports = (app) => {
   router.post("/ensemble", [authenticate], ensemble.create);
   router.put("/ensemble/:id", [authenticate], ensemble.update);
   router.get("/ensemble", [authenticate], ensemble.findAll);
+  router.get(
+    "/ensemble/instructorid/:instructorid",
+    [authenticate],
+    ensemble.findInstructorId
+  );
   router.get("/ensemble/name/:name", [authenticate], ensemble.findName);
   router.delete("/ensemble/:id", [authenticate], ensemble.delete);
 
@@ -120,9 +133,22 @@ module.exports = (app) => {
   );
   router.delete("/instructors/:id", [authenticate], instructors.delete);
 
+  //Instruments
+  router.post("/instruments", [authenticate], instruments.create);
+  router.put("/instruments/:id", [authenticate], instruments.update);
+  router.get("/instruments", [authenticate], instruments.findAll);
+  router.get("/instruments/type/:type", [authenticate], instruments.findType);
+  router.get("/instruments/name/:name", [authenticate], instruments.findName);
+  router.delete("/instruments/:id", [authenticate], instruments.delete);
+
   // Members
   router.post("/members", [authenticate], members.create);
   router.get("/members", [authenticate], members.findAll);
+  router.get(
+    "/members/ensembleid/:ensembleid",
+    [authenticate],
+    members.findEnsembleId
+  );
   router.delete("/members/:id", [authenticate], members.delete);
 
   // Pieces
@@ -142,6 +168,11 @@ module.exports = (app) => {
   // Repertoire
   router.post("/repertoire", [authenticate], repertoire.create);
   router.get("/repertoire", [authenticate], repertoire.findAll);
+  router.get(
+    "/repertoire/studentinfoid/:studentinfoid",
+    [authenticate],
+    repertoire.findStudentInfoId
+  );
   router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
   // Requirements
@@ -166,6 +197,11 @@ module.exports = (app) => {
   router.put("/studentinfo/:id", [authenticate], studentinfo.update);
   router.get("/studentinfo", [authenticate], studentinfo.findAll);
   router.get(
+    "/studentinfo/userid/:userid",
+    [authenticate],
+    studentinfo.findUserId
+  );
+  router.get(
     "/studentinfo/level/:level",
     [authenticate],
     studentinfo.findLevel
@@ -185,17 +221,37 @@ module.exports = (app) => {
     [authenticate],
     studentinfo.findGoogleId
   );
-  router.get(
-    "/studentinfo/instrument/:instrument",
-    [authenticate],
-    studentinfo.findInstrument
-  );
   router.delete("/studentinfo/:id", [authenticate], studentinfo.delete);
+
+  // Student Instruments
+  router.post("/studentinstruments", [authenticate], studentinstruments.create);
+  router.put(
+    "/studentinstruments/:id",
+    [authenticate],
+    studentinstruments.update
+  );
+  router.get("/studentinstruments", [authenticate], studentinstruments.findAll);
+  router.get(
+    "/studentinstruments/studentinfoid/:studentinfoid",
+    [authenticate],
+    studentinstruments.findStudent
+  );
+  router.get(
+    "/studentinstruments/instrumentid/:instrumentid",
+    [authenticate],
+    studentinstruments.findInstrument
+  );
+  router.delete(
+    "/studentinstruments/:id",
+    [authenticate],
+    studentinstruments.delete
+  );
 
   //Users
   router.post("/users", [authenticate], users.create);
   router.put("/users/:id", [authenticate], users.update);
   router.get("/users", [authenticate], users.findAll);
+  router.get("/users/id/:id", [authenticate], users.findId);
   router.get("/users/email/:email", [authenticate], users.findEmail);
   router.get("/users/role/:role", [authenticate], users.findRole);
   router.get("/users/first-name/:fName", [authenticate], users.findFName);

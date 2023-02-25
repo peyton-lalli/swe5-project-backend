@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an members to the database
 exports.create = (req, res) => {
-  const members = {};
+  const members = {
+    studentinfoId: req.body.studentinfoId,
+    ensembleId: req.body.ensembleId,
+  };
 
   Members.create(members)
     .then((data) => {
@@ -42,6 +45,33 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find members based on ensemble id
+exports.findEnsembleId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const ensembleid = req.params.ensembleid;
+  Members.findAndCountAll({
+    where: { ensembleId: ensembleid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };

@@ -20,6 +20,7 @@ exports.create = (req, res) => {
   const critiques = {
     critiquetext: req.body.critiquetext,
     instructorid: req.body.instructorid,
+    eventId: req.body.eventid,
   };
 
   Critiques.create(critiques)

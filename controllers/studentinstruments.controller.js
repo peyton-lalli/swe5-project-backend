@@ -1,5 +1,5 @@
 const db = require("../models");
-const Ensemble = db.ensemble;
+const StudentInstruments = db.studentinstruments;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -9,20 +9,20 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Ensemble } = data;
+  const { count: totalItems, rows: StudentInstruments } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Ensemble, totalPages, currentPage };
+  return { totalItems, StudentInstruments, totalPages, currentPage };
 };
 
-//Add a ensemble to the database
+//Add an instrument to the database
 exports.create = (req, res) => {
-  const ensemble = {
-    name: req.body.name,
-    instructorId: req.body.instructorId,
+  const studentinstruments = {
+    studentinfoId: req.body.studentinfoId,
+    instrumentId: req.body.instrumentId,
   };
 
-  Ensemble.create(ensemble)
+  StudentInstruments.create(studentinstruments)
     .then((data) => {
       res.send(data);
     })
@@ -33,11 +33,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the ensemble in the database
+//Get a list of all of the studentinstruments in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Ensemble.findAndCountAll({ limit, offset })
+  StudentInstruments.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -49,13 +49,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a ensemble based on the instructor id
-exports.findInstructorId = (req, res) => {
+//Find a student instrument based on the student id
+exports.findStudent = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const instructorid = req.params.instructorid;
-  Ensemble.findAndCountAll({
-    where: { instructorId: instructorid },
+  const studentinfoid = req.params.studentinfoid;
+  StudentInstruments.findAndCountAll({
+    where: { studentinfoId: studentinfoid },
     limit,
     offset,
   })
@@ -76,13 +76,13 @@ exports.findInstructorId = (req, res) => {
     });
 };
 
-//Find a ensemble based on the name
-exports.findName = (req, res) => {
+//Find a student instrument based on the instrument id
+exports.findInstrument = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.name;
-  Ensemble.findAndCountAll({
-    where: { name: name },
+  const instrumentid = req.params.instrumentid;
+  StudentInstruments.findAndCountAll({
+    where: { instrumentId: instrumentid },
     limit,
     offset,
   })
@@ -103,20 +103,20 @@ exports.findName = (req, res) => {
     });
 };
 
-//Update ensemble using the ensemble id
+//Update studentinstruments using the studentinstruments id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Ensemble.update(req.body, {
+  StudentInstruments.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Ensemble was updated successfully.",
+          message: "StudentInstruments was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update ensemble with id=${id}. Maybe ensemble was not found or req.body is empty!`,
+          message: `Cannot update studentinstruments with id=${id}. Maybe studentinstruments was not found or req.body is empty!`,
         });
       }
     })
@@ -127,20 +127,20 @@ exports.update = (req, res) => {
     });
 };
 
-//Delete ensemble using the id
+//Delete studentinstruments using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Ensemble.destroy({
+  StudentInstruments.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Ensemble was deleted successfully!",
+          message: "StudentInstruments was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete ensemble with id=${id}. Maybe ensemble was not found!`,
+          message: `Cannot delete studentinstruments with id=${id}. Maybe studentinstruments was not found!`,
         });
       }
     })

@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an repertoire to the database
 exports.create = (req, res) => {
-  const repertoire = {};
+  const repertoire = {
+    piecesId: req.body.piecesId,
+    studentinfoId: req.body.studentinfoId,
+  };
 
   Repertoire.create(repertoire)
     .then((data) => {
@@ -42,6 +45,33 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find repertoire based on student info id
+exports.findStudentInfoId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const studentinfoid = req.params.studentinfoid;
+  Repertoire.findAndCountAll({
+    where: { studentinfoId: studentinfoid },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };

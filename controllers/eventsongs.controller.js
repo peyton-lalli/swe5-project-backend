@@ -17,7 +17,10 @@ const getPagingData = (data, page, limit) => {
 
 //Add an eventsongs to the database
 exports.create = (req, res) => {
-  const eventsongs = {};
+  const eventsongs = {
+    piecesId: req.body.piecesId,
+    eventId: req.body.eventId,
+  };
 
   EventSongs.create(eventsongs)
     .then((data) => {
