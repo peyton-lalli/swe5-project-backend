@@ -19,6 +19,7 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const instruments = {
     name: req.body.name,
+    type: req.body.type,
   };
 
   Instruments.create(instruments)

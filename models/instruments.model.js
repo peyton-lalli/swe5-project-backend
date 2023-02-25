@@ -2,7 +2,7 @@ const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
   const Instruments = sequelize.define(
-    "instrument",
+    "instruments",
     {
       name: {
         type: Sequelize.STRING,
