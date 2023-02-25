@@ -2,7 +2,7 @@ const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
   const StudentInstruments = sequelize.define(
-    "instrument",
+    "studentinstruments",
     {
       id: {
         type: Sequelize.INTEGER,
