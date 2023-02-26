@@ -122,6 +122,11 @@ module.exports = (app) => {
     instructors.findUserId
   );
   router.get(
+    "/instructors/id/:id",
+    [authenticate],
+    instructors.findInstructorId
+  );
+  router.get(
     "/instructors/title/:title",
     [authenticate],
     instructors.findTitle
