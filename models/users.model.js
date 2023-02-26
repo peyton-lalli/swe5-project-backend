@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
       lName: {
         type: Sequelize.STRING,
       },
+      picture: {
+        type: Sequelize.STRING,
+      },
     },
     { timestamps: false }
   );
