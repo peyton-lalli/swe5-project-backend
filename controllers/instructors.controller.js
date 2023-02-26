@@ -77,6 +77,33 @@ exports.findUserId = (req, res) => {
     });
 };
 
+//Find an instructors based on the user ID
+exports.findInstructorId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const instructorId = req.params.id;
+  Instructors.findAndCountAll({
+    where: { id: instructorId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Find an instructors based on the title
 exports.findTitle = (req, res) => {
   const { page, size } = req.query;
