@@ -12,8 +12,6 @@ let googleUser = {};
 const google_id = process.env.CLIENT_ID;
 
 exports.login = async (req, res) => {
-  console.log(req.body);
-
   var googleToken = req.body.credential;
 
   const { OAuth2Client } = require("google-auth-library");
@@ -24,7 +22,6 @@ exports.login = async (req, res) => {
       audience: google_id,
     });
     googleUser = ticket.getPayload();
-    console.log("Google payload is " + JSON.stringify(googleUser));
   }
   await verify().catch(console.error);
 
@@ -34,6 +31,7 @@ exports.login = async (req, res) => {
   //let role = User.role;
 
   let user = {};
+  let session = {};
 
   await User.findOne({
     where: {
@@ -71,7 +69,6 @@ exports.login = async (req, res) => {
         res.status(500).send({ message: err.message });
       });
   } else {
-    console.log(user);
     // doing this to ensure that the user's name is the one listed with Google
     user.fName = firstName;
     user.lName = lastName;
@@ -91,36 +88,95 @@ exports.login = async (req, res) => {
       });
   }
 
-  // create a new Session with an expiration date and save to database
-  let token = jwt.sign({ id: email }, authconfig.secret, { expiresIn: 86400 });
-  let tempExpirationDate = new Date();
-  tempExpirationDate.setDate(tempExpirationDate.getDate() + 1);
-  const session = {
-    token: token,
-    email: email,
-    userId: user.id,
-    expirationDate: tempExpirationDate,
-  };
-
-  console.log(session);
-
-  Session.create(session)
-    .then(() => {
-      let userInfo = {
-        email: user.email,
-        fName: user.fName,
-        lName: user.lName,
-        userId: user.id,
-        token: token,
-        role: user.role,
-        picture: googleUser["picture"],
-      };
-      res.send(userInfo);
+  await Session.findOne({
+    where: {
+      email: email,
+      token: googleToken,
+    },
+  })
+    .then(async (data) => {
+      if (data !== null) {
+        session = data.dataValues;
+        if (session.expirationDate < Date.now()) {
+          session.token = "";
+          // clear session's token if it's expired
+          await Session.update(session, { where: { id: session.id } })
+            .then((num) => {
+              if (num == 1) {
+                console.log("successfully logged out");
+              } else {
+                console.log("failed");
+                res.send({
+                  message: `Error logging out user.`,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(500).send({
+                message: "Error logging out user.",
+              });
+            });
+          //reset session to be null since we need to make another one
+          session = {};
+        } else {
+          // if the session is still valid, then send info to the front end
+          let userInfo = {
+            email: user.email,
+            fName: user.fName,
+            lName: user.lName,
+            userId: user.id,
+            token: session.token,
+            // refresh_token: user.refresh_token,
+            // expiration_date: user.expiration_date
+          };
+          console.log("found a session, don't need to make another one");
+          console.log(userInfo);
+          res.send(userInfo);
+        }
+      }
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving sessions.",
+      });
     });
+
+  if (session.id === undefined) {
+    // create a new Session with an expiration date and save to database
+    let token = jwt.sign({ id: email }, authconfig.secret, {
+      expiresIn: 86400,
+    });
+    let tempExpirationDate = new Date();
+    tempExpirationDate.setDate(tempExpirationDate.getDate() + 1);
+    const session = {
+      token: token,
+      email: email,
+      userId: user.id,
+      expirationDate: tempExpirationDate,
+    };
+
+    console.log("making a new session");
+    console.log(session);
+
+    await Session.create(session)
+      .then(() => {
+        let userInfo = {
+          email: user.email,
+          fName: user.fName,
+          lName: user.lName,
+          userId: user.id,
+          token: token,
+          role: user.role,
+        };
+        console.log(userInfo);
+        res.send(userInfo);
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
+      });
+  }
 };
 
 exports.authorize = async (req, res) => {
