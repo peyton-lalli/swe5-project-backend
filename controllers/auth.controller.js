@@ -28,6 +28,7 @@ exports.login = async (req, res) => {
   let email = googleUser.email;
   let firstName = googleUser.given_name;
   let lastName = googleUser.family_name;
+  let picture = googleUser.picture;
   //let role = User.role;
 
   let user = {};
@@ -47,6 +48,7 @@ exports.login = async (req, res) => {
           fName: firstName,
           lName: lastName,
           email: email,
+          picture: picture,
         };
       }
     })
@@ -127,6 +129,8 @@ exports.login = async (req, res) => {
             lName: user.lName,
             userId: user.id,
             token: session.token,
+            role: user.role,
+            picture: googleUser.picture,
             // refresh_token: user.refresh_token,
             // expiration_date: user.expiration_date
           };
@@ -169,6 +173,7 @@ exports.login = async (req, res) => {
           userId: user.id,
           token: token,
           role: user.role,
+          picture: googleUser.picture,
         };
         console.log(userInfo);
         res.send(userInfo);
