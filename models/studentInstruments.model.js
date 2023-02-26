@@ -1,4 +1,5 @@
 const { SqlError } = require("mariadb");
+// Changed the file name to make it lowercase
 
 module.exports = (sequelize, Sequelize) => {
   const StudentInstruments = sequelize.define(
