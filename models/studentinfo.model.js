@@ -16,6 +16,9 @@ module.exports = (sequelize, Sequelize) => {
       googleid: {
         type: Sequelize.INTEGER,
       },
+      semesters: {
+        type: Sequelize.INTEGER,
+      },
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
