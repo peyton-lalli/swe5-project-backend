@@ -24,11 +24,9 @@ function addForeignKeys(db) {
 
   ensemble.belongsTo(instructors);
 
-  event.belongsTo(ensemble);
-  event.belongsTo(studentinfo);
-
   eventsignup.belongsTo(event);
   eventsignup.belongsTo(studentinfo);
+  eventsignup.belongsTo(ensemble);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);

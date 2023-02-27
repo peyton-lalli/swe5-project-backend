@@ -10,8 +10,8 @@ module.exports = (sequelize, Sequelize) => {
       type: {
         type: Sequelize.STRING,
       },
-      datetime: {
-        type: Sequelize.DATE,
+      date: {
+        type: Sequelize.DATEONLY,
       },
       id: {
         type: Sequelize.INTEGER,
