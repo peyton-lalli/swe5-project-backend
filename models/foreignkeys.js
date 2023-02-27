@@ -4,7 +4,9 @@ function addForeignKeys(db) {
   const critiques = db.critiques;
   const ensemble = db.ensemble;
   const event = db.event;
+  const eventsignup = db.eventsignup;
   const eventsongs = db.eventsongs;
+  const eventtime = db.eventtime;
   const instructors = db.instructors;
   const instruments = db.instruments;
   const studentinstruments = db.studentinstruments;
@@ -25,8 +27,13 @@ function addForeignKeys(db) {
   event.belongsTo(ensemble);
   event.belongsTo(studentinfo);
 
+  eventsignup.belongsTo(event);
+  eventsignup.belongsTo(studentinfo);
+
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(event);
+
+  eventtime.belongsTo(event);
 
   instructors.belongsTo(users);
 
@@ -34,8 +41,8 @@ function addForeignKeys(db) {
   members.belongsTo(ensemble);
 
   pieces.belongsTo(composers);
+  pieces.belongsTo(repertoire);
 
-  repertoire.belongsTo(pieces);
   repertoire.belongsTo(studentinfo);
 
   session.belongsTo(users);

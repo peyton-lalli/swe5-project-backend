@@ -22,6 +22,7 @@ exports.create = (req, res) => {
     datetime: req.body.datetime,
     ensembleId: req.body.ensembleId,
     studentinfoId: req.body.studentinfoId,
+    title: req.body.title,
   };
 
   Event.create(event)
@@ -47,6 +48,33 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find an event based on the id
+exports.findId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Event.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };
