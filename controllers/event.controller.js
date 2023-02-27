@@ -19,7 +19,7 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const event = {
     type: req.body.type,
-    datetime: req.body.datetime,
+    date: req.body.date,
     title: req.body.title,
   };
 
@@ -110,7 +110,7 @@ exports.findDate = (req, res) => {
   const { limit, offset } = getPagination(page, size);
   const date = req.params.date;
   Event.findAndCountAll({
-    where: { datet: date },
+    where: { date: date },
     limit,
     offset,
   })
