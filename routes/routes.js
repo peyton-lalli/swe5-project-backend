@@ -218,6 +218,11 @@ module.exports = (app) => {
     pieces.findTranslation
   );
   router.get("/pieces/language/:language", [authenticate], pieces.findLanguage);
+  router.get(
+    "/pieces/repertoireid/:repertoireId",
+    [authenticate],
+    pieces.findRepertoireId
+  );
   router.delete("/pieces/:id", [authenticate], pieces.delete);
 
   // Repertoire
