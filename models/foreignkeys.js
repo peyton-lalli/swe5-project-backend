@@ -31,7 +31,7 @@ function addForeignKeys(db) {
   eventsignup.belongsTo(studentinfo);
 
   eventsongs.belongsTo(pieces);
-  eventsongs.belongsTo(event);
+  eventsongs.belongsTo(eventsignup);
 
   eventtime.belongsTo(event);
 
