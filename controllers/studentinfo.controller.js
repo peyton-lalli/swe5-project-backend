@@ -56,6 +56,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find a student based on the instructor id
+exports.findInstructorId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const instructorId = req.params.instructorId;
+  StudentInfo.findAndCountAll({
+    where: { instructorId: instructorId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Find a student info based on the user Id
 exports.findUserId = (req, res) => {
   const { page, size } = req.query;
