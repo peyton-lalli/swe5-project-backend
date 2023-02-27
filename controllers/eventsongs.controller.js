@@ -19,7 +19,7 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const eventsongs = {
     piecesId: req.body.piecesId,
-    eventId: req.body.eventId,
+    eventsignupId: req.body.eventsignupId,
   };
 
   EventSongs.create(eventsongs)
