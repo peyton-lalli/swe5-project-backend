@@ -125,6 +125,11 @@ module.exports = (app) => {
     eventsignup.findEventId
   );
   router.get(
+    "/eventsignup/ensembleid/:ensembleId",
+    [authenticate],
+    eventsignup.findEnsembleId
+  );
+  router.get(
     "/eventsignup/studentinfoid/:studentinfoId",
     [authenticate],
     eventsignup.findStudentId

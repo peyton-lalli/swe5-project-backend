@@ -21,6 +21,7 @@ exports.create = (req, res) => {
     timeslot: req.body.timeslot,
     eventId: req.body.eventId,
     studentinfoId: req.body.studentinfoId,
+    ensembleId: req.body.ensembleId,
   };
 
   EventSignUp.create(eventsignup)
@@ -111,6 +112,33 @@ exports.findStudentId = (req, res) => {
   const studentinfoId = req.params.studentinfoId;
   EventSignUp.findAndCountAll({
     where: { studentinfoId: studentinfoId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
+//Find an event sign up based on the ensemble id
+exports.findEnsembleId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const ensembleId = req.params.ensembleId;
+  EventSignUp.findAndCountAll({
+    where: { ensembleId: ensembleId },
     limit,
     offset,
   })
