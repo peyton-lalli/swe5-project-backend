@@ -1,5 +1,5 @@
 const db = require("../models");
-const Pieces = db.pieces;
+const EventTime = db.eventtime;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -9,24 +9,22 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Pieces } = data;
+  const { count: totalItems, rows: EventTime } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Pieces, totalPages, currentPage };
+  return { totalItems, EventTime, totalPages, currentPage };
 };
 
-//Add a piece to the database
+//Add an event sign up to the database
 exports.create = (req, res) => {
-  const pieces = {
-    name: req.body.name,
-    lyrics: req.body.lyrics,
-    translation: req.body.translation,
-    language: req.body.language,
-    composerId: req.body.composerId,
-    repertoireId: req.body.repertoireId,
+  const eventtime = {
+    starttime: req.body.starttime,
+    endtime: req.body.endtime,
+    interval: req.body.interval,
+    eventId: req.body.eventId,
   };
 
-  Pieces.create(pieces)
+  EventTime.create(eventtime)
     .then((data) => {
       res.send(data);
     })
@@ -37,11 +35,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the piecess in the database
+//Get a list of all of the event times in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Pieces.findAndCountAll({ limit, offset })
+  EventTime.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -53,13 +51,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a piece based on the name
-exports.findName = (req, res) => {
+//Find an event time based on the start time
+exports.findStartTime = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.name;
-  Pieces.findAndCountAll({
-    where: { name: name },
+  const starttime = req.params.starttime;
+  EventTime.findAndCountAll({
+    where: { starttime: starttime },
     limit,
     offset,
   })
@@ -80,13 +78,13 @@ exports.findName = (req, res) => {
     });
 };
 
-//Find a piece based on the lyrics
-exports.findLyrics = (req, res) => {
+//Find an event time based on the event end time
+exports.findEndTime = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lyrics = req.params.lyrics;
-  Pieces.findAndCountAll({
-    where: { lyrics: { [Op.substring]: lyrics } },
+  const endtime = req.params.endtime;
+  EventTime.findAndCountAll({
+    where: { endtime: endtime },
     limit,
     offset,
   })
@@ -107,13 +105,13 @@ exports.findLyrics = (req, res) => {
     });
 };
 
-//Find a piece based on the translation
-exports.findTranslation = (req, res) => {
+//Find an event time based on the interval
+exports.findInterval = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const translation = req.params.translation;
-  Pieces.findAndCountAll({
-    where: { translation: { [Op.substring]: translation } },
+  const interval = req.params.interval;
+  EventTime.findAndCountAll({
+    where: { interval: interval },
     limit,
     offset,
   })
@@ -134,13 +132,13 @@ exports.findTranslation = (req, res) => {
     });
 };
 
-//Find a piece based on the language
-exports.findLanguage = (req, res) => {
+//Find an event time based on the event id
+exports.findEventId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const language = req.params.language;
-  Pieces.findAndCountAll({
-    where: { langauge: language },
+  const eventId = req.params.eventId;
+  EventTime.findAndCountAll({
+    where: { eventId: eventId },
     limit,
     offset,
   })
@@ -161,20 +159,20 @@ exports.findLanguage = (req, res) => {
     });
 };
 
-//Update pieces using the piece id
+//Update event time using the event time id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Pieces.update(req.body, {
+  EventTime.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Pieces was updated successfully.",
+          message: "Event was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update pieces with id=${id}. Maybe pieces was not found or req.body is empty!`,
+          message: `Cannot update event with id=${id}. Maybe event was not found or req.body is empty!`,
         });
       }
     })
@@ -185,20 +183,20 @@ exports.update = (req, res) => {
     });
 };
 
-//Delete piece using the id
+//Delete event time using the event time id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Pieces.destroy({
+  EventTime.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Pieces was deleted successfully!",
+          message: "Event was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete pieces with id=${id}. Maybe pieces was not found!`,
+          message: `Cannot delete event with id=${id}. Maybe event was not found!`,
         });
       }
     })

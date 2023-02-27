@@ -1,5 +1,5 @@
 const db = require("../models");
-const Pieces = db.pieces;
+const EventSignUp = db.eventsignup;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -9,24 +9,21 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Pieces } = data;
+  const { count: totalItems, rows: EventSignUp } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Pieces, totalPages, currentPage };
+  return { totalItems, EventSignUp, totalPages, currentPage };
 };
 
-//Add a piece to the database
+//Add an event sign up to the database
 exports.create = (req, res) => {
-  const pieces = {
-    name: req.body.name,
-    lyrics: req.body.lyrics,
-    translation: req.body.translation,
-    language: req.body.language,
-    composerId: req.body.composerId,
-    repertoireId: req.body.repertoireId,
+  const eventsignup = {
+    timeslot: req.body.timeslot,
+    eventId: req.body.eventId,
+    studentinfoId: req.body.studentinfoId,
   };
 
-  Pieces.create(pieces)
+  EventSignUp.create(eventsignup)
     .then((data) => {
       res.send(data);
     })
@@ -37,11 +34,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the piecess in the database
+//Get a list of all of the event sign up in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Pieces.findAndCountAll({ limit, offset })
+  EventSignUp.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -53,13 +50,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a piece based on the name
-exports.findName = (req, res) => {
+//Find an event sign up based on the time slot
+exports.findTimeSlot = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const name = req.params.name;
-  Pieces.findAndCountAll({
-    where: { name: name },
+  const timeslot = req.params.timeslot;
+  EventSignUp.findAndCountAll({
+    where: { timeslot: timeslot },
     limit,
     offset,
   })
@@ -80,13 +77,13 @@ exports.findName = (req, res) => {
     });
 };
 
-//Find a piece based on the lyrics
-exports.findLyrics = (req, res) => {
+//Find an event sign up based on the event id
+exports.findEventId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const lyrics = req.params.lyrics;
-  Pieces.findAndCountAll({
-    where: { lyrics: { [Op.substring]: lyrics } },
+  const eventId = req.params.eventId;
+  EventSignUp.findAndCountAll({
+    where: { eventId: eventId },
     limit,
     offset,
   })
@@ -107,13 +104,13 @@ exports.findLyrics = (req, res) => {
     });
 };
 
-//Find a piece based on the translation
-exports.findTranslation = (req, res) => {
+//Find an event sign up based on the student id
+exports.findStudentId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const translation = req.params.translation;
-  Pieces.findAndCountAll({
-    where: { translation: { [Op.substring]: translation } },
+  const studentinfoId = req.params.studentinfoId;
+  EventSignUp.findAndCountAll({
+    where: { studentinfoId: studentinfoId },
     limit,
     offset,
   })
@@ -134,47 +131,20 @@ exports.findTranslation = (req, res) => {
     });
 };
 
-//Find a piece based on the language
-exports.findLanguage = (req, res) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
-  const language = req.params.language;
-  Pieces.findAndCountAll({
-    where: { langauge: language },
-    limit,
-    offset,
-  })
-    .then((data) => {
-      if (data) {
-        const response = getPagingData(data, page, limit);
-        res.send(response);
-      } else {
-        res.status(404).send({
-          message: `Not Found`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error",
-      });
-    });
-};
-
-//Update pieces using the piece id
+//Update event sign up using the event id
 exports.update = (req, res) => {
   const id = req.params.id;
-  Pieces.update(req.body, {
+  EventSignUp.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Pieces was updated successfully.",
+          message: "Event was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update pieces with id=${id}. Maybe pieces was not found or req.body is empty!`,
+          message: `Cannot update event with id=${id}. Maybe event was not found or req.body is empty!`,
         });
       }
     })
@@ -185,20 +155,20 @@ exports.update = (req, res) => {
     });
 };
 
-//Delete piece using the id
+//Delete event sign up using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Pieces.destroy({
+  EventSignUp.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Pieces was deleted successfully!",
+          message: "Event was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete pieces with id=${id}. Maybe pieces was not found!`,
+          message: `Cannot delete event with id=${id}. Maybe event was not found!`,
         });
       }
     })

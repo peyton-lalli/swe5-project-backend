@@ -1,17 +1,11 @@
 const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
-  const Event = sequelize.define(
-    "event",
+  const EventSignUp = sequelize.define(
+    "eventsignup",
     {
-      title: {
-        type: Sequelize.STRING,
-      },
-      type: {
-        type: Sequelize.STRING,
-      },
-      datetime: {
-        type: Sequelize.DATE,
+      timeslot: {
+        type: Sequelize.TIME,
       },
       id: {
         type: Sequelize.INTEGER,
@@ -22,5 +16,5 @@ module.exports = (sequelize, Sequelize) => {
     },
     { timestamps: false }
   );
-  return Event;
+  return EventSignUp;
 };

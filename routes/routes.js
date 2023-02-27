@@ -5,7 +5,9 @@ module.exports = (app) => {
   const critiques = require("../controllers/critiques.controller.js");
   const ensemble = require("../controllers/ensemble.controller.js");
   const event = require("../controllers/event.controller.js");
+  const eventsignup = require("../controllers/eventsignup.controller.js");
   const eventsongs = require("../controllers/eventsongs.controller.js");
+  const eventtime = require("../controllers/eventtime.controller.js");
   const instructors = require("../controllers/instructors.controller.js");
   const instruments = require("../controllers/instruments.controller.js");
   const studentinstruments = require("../controllers/studentinstruments.controller.js");
@@ -103,14 +105,62 @@ module.exports = (app) => {
   router.post("/event", [authenticate], event.create);
   router.put("/event/:id", [authenticate], event.update);
   router.get("/event", [authenticate], event.findAll);
+  router.get("event/id/:id", [authenticate], event.findId);
   router.get("/event/type/:type", [authenticate], event.findType);
   router.get("/event/date/:date", [authenticate], event.findDate);
   router.delete("/event/:id", [authenticate], event.delete);
+
+  // Event Signup
+  router.post("/eventsignup", [authenticate], eventsignup.create);
+  router.put("/eventsignup/:id", [authenticate], eventsignup.update);
+  router.get("/eventsignup", [authenticate], eventsignup.findAll);
+  router.get(
+    "/eventsignup/timeslot/:timeslot",
+    [authenticate],
+    eventsignup.findTimeSlot
+  );
+  router.get(
+    "/eventsignup/eventid/:eventId",
+    [authenticate],
+    eventsignup.findEventId
+  );
+  router.get(
+    "/eventsignup/studentinfoid/:studentinfoId",
+    [authenticate],
+    eventsignup.findStudentId
+  );
+  router.delete("/eventsignup/:id", [authenticate], eventsignup.delete);
 
   // Event Songs
   router.post("/eventsongs", [authenticate], eventsongs.create);
   router.get("/eventsongs", [authenticate], eventsongs.findAll);
   router.delete("/eventsongs/:id", [authenticate], eventsongs.delete);
+
+  // Event Time
+  router.post("/eventtime", [authenticate], eventtime.create);
+  router.put("/eventtime/:id", [authenticate], eventtime.update);
+  router.get("/eventtime", [authenticate], eventtime.findAll);
+  router.get(
+    "/eventtime/eventid/:eventId",
+    [authenticate],
+    eventtime.findEventId
+  );
+  router.get(
+    "/eventtime/starttime/:starttime",
+    [authenticate],
+    eventtime.findStartTime
+  );
+  router.get(
+    "/eventtime/endtime/:endtime",
+    [authenticate],
+    eventtime.findEndTime
+  );
+  router.get(
+    "/eventtime/interval/:interval",
+    [authenticate],
+    eventtime.findInterval
+  );
+  router.delete("/eventtime/:id", [authenticate], eventtime.delete);
 
   // Instructors
   router.post("/instructors", [authenticate], instructors.create);
