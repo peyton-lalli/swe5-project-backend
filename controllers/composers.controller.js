@@ -83,6 +83,33 @@ exports.findName = (req, res) => {
     });
 };
 
+//Find composers based on a specific composer id
+exports.findComposerId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Composers.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Find a composers based on the birthyear
 exports.findBirthYear = (req, res) => {
   const { page, size } = req.query;

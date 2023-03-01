@@ -66,6 +66,7 @@ module.exports = (app) => {
   router.put("/composers/:id", [authenticate], composers.update);
   router.get("/composers", [authenticate], composers.findAll);
   router.get("/composers/name/:name", [authenticate], composers.findName);
+  router.get("/composers/id/:id", [authenticate], composers.findComposerId);
   router.get(
     "/composers/birthyear/:birthyear",
     [authenticate],
