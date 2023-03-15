@@ -52,6 +52,32 @@ exports.findAll = (req, res) => {
       });
     });
 };
+// Find a piece based on the pieceId
+exports.findId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Pieces.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Cannot find user with that name`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something happend, try again!",
+      });
+    });
+};
 
 //Find a piece based on the name
 exports.findName = (req, res) => {

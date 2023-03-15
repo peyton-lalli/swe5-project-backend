@@ -220,6 +220,7 @@ module.exports = (app) => {
   // Pieces
   router.post("/pieces", [authenticate], pieces.create);
   router.put("/pieces/:id", [authenticate], pieces.update);
+  router.get("/pieces/id/:id", [authenticate], pieces.findId);
   router.get("/pieces", [authenticate], pieces.findAll);
   router.get("/pieces/name/:name", [authenticate], pieces.findName);
   router.get("/pieces/lyrics/:lyrics", [authenticate], pieces.findLyrics);
