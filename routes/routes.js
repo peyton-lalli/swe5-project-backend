@@ -140,6 +140,11 @@ module.exports = (app) => {
   // Event Songs
   router.post("/eventsongs", [authenticate], eventsongs.create);
   router.get("/eventsongs", [authenticate], eventsongs.findAll);
+  router.get(
+    "/eventsongs/eventsignupId/:eventsignupId",
+    [authenticate],
+    eventsongs.findEventSignupId
+  );
   router.delete("/eventsongs/:id", [authenticate], eventsongs.delete);
 
   // Event Time

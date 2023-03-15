@@ -18,7 +18,7 @@ const getPagingData = (data, page, limit) => {
 //Add an eventsongs to the database
 exports.create = (req, res) => {
   const eventsongs = {
-    piecesId: req.body.piecesId,
+    pieceId: req.body.pieceId,
     eventsignupId: req.body.eventsignupId,
   };
 
@@ -45,6 +45,33 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Find event songs for id based on the event signup id
+exports.findEventSignupId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const eventsignupId = req.params.eventsignupId;
+  EventSongs.findAndCountAll({
+    where: { eventsignupId: eventsignupId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
       });
     });
 };
