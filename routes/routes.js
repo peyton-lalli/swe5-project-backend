@@ -66,6 +66,7 @@ module.exports = (app) => {
   router.put("/composers/:id", [authenticate], composers.update);
   router.get("/composers", [authenticate], composers.findAll);
   router.get("/composers/name/:name", [authenticate], composers.findName);
+  router.get("/composers/id/:id", [authenticate], composers.findComposerId);
   router.get(
     "/composers/birthyear/:birthyear",
     [authenticate],
@@ -139,6 +140,11 @@ module.exports = (app) => {
   // Event Songs
   router.post("/eventsongs", [authenticate], eventsongs.create);
   router.get("/eventsongs", [authenticate], eventsongs.findAll);
+  router.get(
+    "/eventsongs/eventsignupId/:eventsignupId",
+    [authenticate],
+    eventsongs.findEventSignupId
+  );
   router.delete("/eventsongs/:id", [authenticate], eventsongs.delete);
 
   // Event Time
@@ -214,6 +220,7 @@ module.exports = (app) => {
   // Pieces
   router.post("/pieces", [authenticate], pieces.create);
   router.put("/pieces/:id", [authenticate], pieces.update);
+  router.get("/pieces/id/:id", [authenticate], pieces.findId);
   router.get("/pieces", [authenticate], pieces.findAll);
   router.get("/pieces/name/:name", [authenticate], pieces.findName);
   router.get("/pieces/lyrics/:lyrics", [authenticate], pieces.findLyrics);
