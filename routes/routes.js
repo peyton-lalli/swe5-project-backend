@@ -270,7 +270,7 @@ module.exports = (app) => {
   router.post("/roles", [authenticate], roles.create);
   router.put("/roles/:id", [authenticate], roles.update);
   router.get("/roles", [authenticate], roles.findAll);
-  router.get("/roles/type/:natypeme", [authenticate], roles.findType);
+  router.get("/roles/type/:type", [authenticate], roles.findType);
   router.delete("/roles/:id", [authenticate], roles.delete);
 
   // StudentInfo
