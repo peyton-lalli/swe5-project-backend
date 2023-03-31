@@ -58,8 +58,6 @@ function addForeignKeys(db) {
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);
-
-  users.belongsTo(userrole);
 }
 
 module.exports = { addForeignKeys };
