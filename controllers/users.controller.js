@@ -18,7 +18,6 @@ const getPagingData = (data, page, limit) => {
 exports.create = (req, res) => {
   const users = {
     email: req.body.email,
-    role: req.body.role,
     fName: req.body.fName,
     lName: req.body.lName,
   };
@@ -154,33 +153,6 @@ exports.findEmail = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: "Error retrieving user with email=" + email,
-      });
-    });
-};
-
-//Find a user based on a specific role
-exports.findRole = (req, res) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
-  const role = req.params.role;
-  Users.findAndCountAll({
-    where: { role: role },
-    limit,
-    offset,
-  })
-    .then((data) => {
-      if (data) {
-        const response = getPagingData(data, page, limit);
-        res.send(response);
-      } else {
-        res.status(404).send({
-          message: `Cannot find user with role=${role}.`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving user with role=" + role,
       });
     });
 };

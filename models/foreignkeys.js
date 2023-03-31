@@ -14,8 +14,10 @@ function addForeignKeys(db) {
   const pieces = db.pieces;
   const repertoire = db.repertoire;
   const requirements = db.requirements;
+  const roles = db.roles;
   const session = db.session;
   const studentinfo = db.studentinfo;
+  const userrole = db.userrole;
   const users = db.users;
 
   availability.belongsTo(instructors);
@@ -53,6 +55,11 @@ function addForeignKeys(db) {
 
   studentinstruments.belongsTo(instruments);
   studentinstruments.belongsTo(studentinfo);
+
+  userrole.belongsTo(roles);
+  userrole.belongsTo(users);
+
+  users.belongsTo(userrole);
 }
 
 module.exports = { addForeignKeys };

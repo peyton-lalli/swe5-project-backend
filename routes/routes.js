@@ -15,7 +15,9 @@ module.exports = (app) => {
   const pieces = require("../controllers/pieces.controller.js");
   const repertoire = require("../controllers/repertoire.controller.js");
   const requirements = require("../controllers/requirements.controller.js");
+  const roles = require("../controllers/roles.controller.js");
   const auth = require("../controllers/auth.controller.js");
+  const userrole = require("../controllers/userrole.controller.js");
   const users = require("../controllers/users.controller.js");
   const studentinfo = require("../controllers/studentinfo.controller.js");
   const { authenticate } = require("../authorization/authorization.js");
@@ -264,6 +266,13 @@ module.exports = (app) => {
   );
   router.delete("/requirements/:id", [authenticate], requirements.delete);
 
+  // Roles
+  router.post("/roles", [authenticate], roles.create);
+  router.put("/roles/:id", [authenticate], roles.update);
+  router.get("/roles", [authenticate], roles.findAll);
+  router.get("/roles/type/:type", [authenticate], roles.findType);
+  router.delete("/roles/:id", [authenticate], roles.delete);
+
   // StudentInfo
   router.post("/studentinfo", [authenticate], studentinfo.create);
   router.put("/studentinfo/:id", [authenticate], studentinfo.update);
@@ -324,13 +333,19 @@ module.exports = (app) => {
     studentinstruments.delete
   );
 
+  // User Roles
+  router.post("/userrole", [authenticate], userrole.create);
+  router.put("/userrole/:id", [authenticate], userrole.update);
+  router.get("/userrole", [authenticate], userrole.findAll);
+  router.get("/userrole/user/:id", [authenticate], userrole.findUserRoles);
+  router.delete("/userrole/:id", [authenticate], userrole.delete);
+
   //Users
   router.post("/users", [authenticate], users.create);
   router.put("/users/:id", [authenticate], users.update);
   router.get("/users", [authenticate], users.findAll);
   router.get("/users/id/:id", [authenticate], users.findId);
   router.get("/users/email/:email", [authenticate], users.findEmail);
-  router.get("/users/role/:role", [authenticate], users.findRole);
   router.get("/users/first-name/:fName", [authenticate], users.findFName);
   router.get("/users/last-name/:lName", [authenticate], users.findLName);
   router.delete("/users/:id", [authenticate], users.delete);
