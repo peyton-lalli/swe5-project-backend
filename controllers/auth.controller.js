@@ -2,6 +2,7 @@ const db = require("../models");
 const authconfig = require("../config/auth.config");
 const User = db.users;
 const Session = db.session;
+const UserRoles = db.userrole;
 
 const { google } = require("googleapis");
 
@@ -29,7 +30,7 @@ exports.login = async (req, res) => {
   let firstName = googleUser.given_name;
   let lastName = googleUser.family_name;
   let picture = googleUser.picture;
-  //let role = User.role;
+  let roles = User.role;
 
   let user = {};
   let session = {};
@@ -54,6 +55,25 @@ exports.login = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
+    });
+
+  await UserRoles.findAndCountAll({
+    where: { userId: user.id },
+  })
+    .then((data) => {
+      if (data) {
+        user.roles = [];
+        for (let role of data.rows) {
+          user.roles.push(role.dataValues);
+        }
+      } else {
+        user.roles = [];
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
     });
 
   // this lets us get the user id
@@ -129,7 +149,7 @@ exports.login = async (req, res) => {
             lName: user.lName,
             userId: user.id,
             token: session.token,
-            role: user.role,
+            roles: user.roles,
             picture: googleUser.picture,
             // refresh_token: user.refresh_token,
             // expiration_date: user.expiration_date
@@ -172,7 +192,7 @@ exports.login = async (req, res) => {
           lName: user.lName,
           userId: user.id,
           token: token,
-          role: user.role,
+          roles: user.roles,
           picture: googleUser.picture,
         };
         console.log(userInfo);
