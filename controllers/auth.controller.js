@@ -2,6 +2,7 @@ const db = require("../models");
 const authconfig = require("../config/auth.config");
 const User = db.users;
 const Session = db.session;
+const UserRole = db.userrole;
 
 const { google } = require("googleapis");
 
@@ -29,7 +30,7 @@ exports.login = async (req, res) => {
   let firstName = googleUser.given_name;
   let lastName = googleUser.family_name;
   let picture = googleUser.picture;
-  //let role = User.role;
+  let role = 0;
 
   let user = {};
   let session = {};
@@ -50,6 +51,16 @@ exports.login = async (req, res) => {
           email: email,
           picture: picture,
         };
+
+        if (email.split("@")[1].toLowerCase() === "oc.edu") {
+          role = 2;
+          console.log("User is a professor");
+        } else if (email.split("@")[1].toLowerCase() === "eagles.oc.edu") {
+          role = 1;
+          console.log("User is a student");
+        } else {
+          console.log("User is not a student or professor");
+        }
       }
     })
     .catch((err) => {
@@ -64,7 +75,18 @@ exports.login = async (req, res) => {
       .then((data) => {
         console.log("user was registered");
         user = data.dataValues;
-        // res.send({ message: "User was registered successfully!" });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send({ message: err.message });
+      });
+
+    await UserRole.create({
+      userId: user.id,
+      roleId: role,
+    })
+      .then((data) => {
+        console.log("role was added");
       })
       .catch((err) => {
         console.log(err);
