@@ -3,6 +3,7 @@ const authconfig = require("../config/auth.config");
 const User = db.users;
 const Session = db.session;
 const UserRole = db.userrole;
+const getRoles = require("./userrole.controller");
 
 const { google } = require("googleapis");
 
@@ -65,25 +66,6 @@ exports.login = async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
-    });
-
-  await UserRoles.findAndCountAll({
-    where: { userId: user.id },
-  })
-    .then((data) => {
-      if (data) {
-        user.roles = [];
-        for (let role of data.rows) {
-          user.roles.push(role.dataValues);
-        }
-      } else {
-        user.roles = [];
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error",
-      });
     });
 
   // this lets us get the user id
@@ -170,7 +152,7 @@ exports.login = async (req, res) => {
             lName: user.lName,
             userId: user.id,
             token: session.token,
-            roles: user.roles,
+            roles: getRoles(user.id),
             picture: googleUser.picture,
             // refresh_token: user.refresh_token,
             // expiration_date: user.expiration_date
@@ -213,7 +195,7 @@ exports.login = async (req, res) => {
           lName: user.lName,
           userId: user.id,
           token: token,
-          roles: user.roles,
+          roles: getRoles(user.id),
           picture: googleUser.picture,
         };
         console.log(userInfo);
