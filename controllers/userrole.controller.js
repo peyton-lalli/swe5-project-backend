@@ -1,5 +1,5 @@
 const db = require("../models");
-const UserRoles = db.userroles;
+const UserRole = db.userrole;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
     userId: req.body.userId,
   };
 
-  UserRoles.create(userroles)
+  UserRole.create(userroles)
     .then((data) => {
       res.send(data);
     })
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  UserRoles.findAndCountAll({ limit, offset })
+  UserRole.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -53,8 +53,9 @@ exports.findAll = (req, res) => {
 exports.findUserRoles = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const userId = req.params.userId;
-  UserRoles.findAndCountAll({
+  const userId = req.params.id;
+  console.log(req.params);
+  UserRole.findAndCountAll({
     where: { userId: userId },
     limit,
     offset,
@@ -71,7 +72,7 @@ exports.findUserRoles = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error",
+        message: "Error" + err,
       });
     });
 };
@@ -79,7 +80,7 @@ exports.findUserRoles = (req, res) => {
 //Update userroles using the userroles id
 exports.update = (req, res) => {
   const id = req.params.id;
-  UserRoles.update(req.body, {
+  UserRole.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
@@ -103,7 +104,7 @@ exports.update = (req, res) => {
 //Delete userroles using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  UserRoles.destroy({
+  UserRole.destroy({
     where: { id: id },
   })
     .then((num) => {

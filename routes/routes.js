@@ -338,7 +338,7 @@ module.exports = (app) => {
   router.post("/userrole", [authenticate], userrole.create);
   router.put("/userrole/:id", [authenticate], userrole.update);
   router.get("/userrole", [authenticate], userrole.findAll);
-  router.get("/userrole/user/:id", [authenticate], userrole.findUserRoles);
+  router.get("/userrole/userId/:id", [authenticate], userrole.findUserRoles);
   router.delete("/userrole/:id", [authenticate], userrole.delete);
 
   //Users
