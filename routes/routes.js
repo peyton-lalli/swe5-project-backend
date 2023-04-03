@@ -141,6 +141,7 @@ module.exports = (app) => {
 
   // Event Songs
   router.post("/eventsongs", [authenticate], eventsongs.create);
+  router.put("/eventsongs/:id", [authenticate], eventsongs.update);
   router.get("/eventsongs", [authenticate], eventsongs.findAll);
   router.get(
     "/eventsongs/eventsignupId/:eventsignupId",

@@ -33,6 +33,30 @@ exports.create = (req, res) => {
     });
 };
 
+//Update event song using the event id
+exports.update = (req, res) => {
+  const id = req.params.id;
+  EventSongs.update(req.body, {
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Event was updated successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update event song with id=${id}. Maybe event was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
+      });
+    });
+};
+
 //Get a list of all of the eventsongss in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
