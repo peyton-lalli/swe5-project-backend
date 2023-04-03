@@ -46,7 +46,7 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update event with id=${id}. Maybe event was not found or req.body is empty!`,
+          message: `Cannot update event song with id=${id}. Maybe event was not found or req.body is empty!`,
         });
       }
     })
