@@ -1,5 +1,6 @@
 module.exports = (app) => {
   // A variable for each controller for the API to use
+  const accompanists = require("../controllers/accompanists.controller.js");
   const availability = require("../controllers/availability.controller.js");
   const composers = require("../controllers/composers.controller.js");
   const critiques = require("../controllers/critiques.controller.js");
@@ -10,6 +11,8 @@ module.exports = (app) => {
   const eventtime = require("../controllers/eventtime.controller.js");
   const instructors = require("../controllers/instructors.controller.js");
   const instruments = require("../controllers/instruments.controller.js");
+  const studentaccompanist = require("../controllers/studentaccompanist.controller.js");
+  const studentinstructor = require("../controllers/studentinstructor.controller.js");
   const studentinstruments = require("../controllers/studentinstruments.controller.js");
   const members = require("../controllers/members.controller.js");
   const pieces = require("../controllers/pieces.controller.js");
@@ -40,6 +43,12 @@ module.exports = (app) => {
 
   // Logout
   router.post("/logout", auth.logout);
+
+  //Accompanists
+  router.post("/accompanists", [authenticate], accompanists.create);
+  router.put("/accompanists/:id", [authenticate], accompanists.update);
+  router.get("/accompanists", [authenticate], accompanists.findAll);
+  router.delete("/accompanists/:id", [authenticate], accompanists.delete);
 
   // Availability
   router.post("/availability", [authenticate], availability.create);
@@ -309,6 +318,49 @@ module.exports = (app) => {
     studentinfo.findGoogleId
   );
   router.delete("/studentinfo/:id", [authenticate], studentinfo.delete);
+
+  //Student Accompanist
+  router.post("/studentaccompanist", [authenticate], studentaccompanist.create);
+  router.put(
+    "/studentaccompanist/:id",
+    [authenticate],
+    studentaccompanist.update
+  );
+  router.get("/studentaccompanist", [authenticate], studentaccompanist.findAll);
+  router.get(
+    "/studentaccompanist/studentinfoid/:studentinfoid",
+    [authenticate],
+    studentaccompanist.findStudent
+  );
+  router.get(
+    "/studentaccompanist/accompanistid/:accompanistid",
+    [authenticate],
+    studentaccompanist.findAccompanist
+  );
+
+  //Student Instructors
+  router.post("/studentinstructors", [authenticate], studentinstructor.create);
+  router.put(
+    "/studentinstructors/:id",
+    [authenticate],
+    studentinstructor.update
+  );
+  router.get("/studentinstructors", [authenticate], studentinstructor.findAll);
+  router.get(
+    "/studentinstructors/studentinfoid/:studentinfoid",
+    [authenticate],
+    studentinstructor.findStudent
+  );
+  router.get(
+    "/studentinstructors/instructorid/:instructorid",
+    [authenticate],
+    studentinstructor.findInstructor
+  );
+  router.delete(
+    "/studentinstructors/:id",
+    [authenticate],
+    studentinstructor.delete
+  );
 
   // Student Instruments
   router.post("/studentinstruments", [authenticate], studentinstruments.create);
