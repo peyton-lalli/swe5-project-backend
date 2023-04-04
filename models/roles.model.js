@@ -1,20 +1,16 @@
 const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
-  const Roles = sequelize.define(
-    "roles",
-    {
-      id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        unique: true,
-      },
-      type: {
-        type: Sequelize.STRING,
-      },
+  const Roles = sequelize.define("roles", {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
     },
-    { timestamps: false }
-  );
+    type: {
+      type: Sequelize.STRING,
+    },
+  });
   return Roles;
 };
