@@ -16,6 +16,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.accompanists = require("./accompanists.model.js")(sequelize, Sequelize);
 db.availability = require("./availability.model.js")(sequelize, Sequelize);
 db.composers = require("./composers.model.js")(sequelize, Sequelize);
 db.critiques = require("./critiques.model.js")(sequelize, Sequelize);
@@ -32,7 +33,15 @@ db.repertoire = require("./repertoire.model.js")(sequelize, Sequelize);
 db.requirements = require("./requirements.model.js")(sequelize, Sequelize);
 db.roles = require("./roles.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
+db.studentaccompanist = require("./studentaccompanist.model.js")(
+  sequelize,
+  Sequelize
+);
 db.studentinfo = require("./studentinfo.model.js")(sequelize, Sequelize);
+db.studentinstructor = require("./studentinstructor.model.js")(
+  sequelize,
+  Sequelize
+);
 db.studentinstruments = require("./studentinstruments.model.js")(
   sequelize,
   Sequelize
