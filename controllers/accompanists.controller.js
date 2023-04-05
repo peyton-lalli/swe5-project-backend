@@ -17,7 +17,7 @@ const getPagingData = (data, page, limit) => {
 
 //Add an accompanist to the database
 exports.create = (req, res) => {
-  const accompanists = {};
+  const accompanists = { userId: req.body.userId };
 
   Accompanists.create(accompanists)
     .then((data) => {

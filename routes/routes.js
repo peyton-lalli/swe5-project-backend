@@ -288,6 +288,11 @@ module.exports = (app) => {
   router.put("/studentinfo/:id", [authenticate], studentinfo.update);
   router.get("/studentinfo", [authenticate], studentinfo.findAll);
   router.get(
+    "/studentinfo/allInfo/:id",
+    [authenticate],
+    studentinfo.findAllInfo
+  );
+  router.get(
     "/studentinfo/instructorid/:instructorId",
     [authenticate],
     studentinfo.findInstructorId

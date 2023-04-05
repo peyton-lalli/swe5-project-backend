@@ -1,6 +1,7 @@
 const db = require("../models");
 const StudentInfo = db.studentinfo;
 const Op = db.Sequelize.Op;
+const Student = require("../utils/students.js");
 
 //Functions for the pagination
 const getPagination = (page, size) => {
@@ -52,6 +53,25 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+exports.findAllInfo = async (req, res) => {
+  await Student.getAllStudentDataForUserId(req.params.id)
+    .then((data) => {
+      if (data) {
+        console.log(data);
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Not Found` + data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
       });
     });
 };
