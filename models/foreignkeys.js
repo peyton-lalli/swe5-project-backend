@@ -25,13 +25,15 @@ function addForeignKeys(db) {
 
   availability.belongsTo(instructors);
 
-  critiques.belongsTo(event);
+  critiques.belongsTo(eventsignup);
 
   ensemble.belongsTo(instructors);
 
   eventsignup.belongsTo(event);
   eventsignup.belongsTo(studentinfo);
   eventsignup.belongsTo(ensemble);
+  eventsignup.belongsTo(instructors);
+  eventsignup.belongsTo(accompanists);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);
