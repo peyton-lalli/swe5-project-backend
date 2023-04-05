@@ -61,7 +61,6 @@ exports.findAllInfo = async (req, res) => {
   await Student.getAllStudentDataForUserId(req.params.id)
     .then((data) => {
       if (data) {
-        console.log(data);
         res.send(data);
       } else {
         res.status(404).send({
