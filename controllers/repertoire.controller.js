@@ -49,12 +49,12 @@ exports.findAll = (req, res) => {
 };
 
 //Find repertoire based on student info id
-exports.findStudentInfoId = (req, res) => {
+exports.findStudentId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const studentinfoid = req.params.studentinfoid;
+  const studentId = req.params.studentId;
   Repertoire.findAndCountAll({
-    where: { studentinfoId: studentinfoid },
+    where: { studentId: studentId },
     limit,
     offset,
   })

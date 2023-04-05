@@ -37,7 +37,7 @@ db.studentaccompanist = require("./studentaccompanist.model.js")(
   sequelize,
   Sequelize
 );
-db.studentinfo = require("./studentinfo.model.js")(sequelize, Sequelize);
+db.students = require("./students.model.js")(sequelize, Sequelize);
 db.studentinstructor = require("./studentinstructor.model.js")(
   sequelize,
   Sequelize

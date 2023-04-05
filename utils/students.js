@@ -1,5 +1,5 @@
 const db = require("../models");
-const StudentInfo = db.studentinfo;
+const Students = db.students;
 const Repertoire = db.repertoire;
 const Pieces = db.pieces;
 const Composers = db.composers;
@@ -10,7 +10,7 @@ const StudentInstructor = db.studentinstructor;
 const StudentAccompanist = db.studentaccompanist;
 
 exports.getAllStudentDataForUserId = async (userId) => {
-  const stud = await StudentInfo.findAll({
+  const stud = await Students.findAll({
     where: { userId: userId },
     attributes: [
       ["id", "studentId"],
