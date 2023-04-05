@@ -1,7 +1,7 @@
 const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
-  const StudentInfo = sequelize.define("studentinfo", {
+  const Students = sequelize.define("students", {
     level: {
       type: Sequelize.INTEGER,
     },
@@ -24,5 +24,5 @@ module.exports = (sequelize, Sequelize) => {
       unique: true,
     },
   });
-  return StudentInfo;
+  return Students;
 };

@@ -1,6 +1,7 @@
 const db = require("../models");
-const StudentInfo = db.studentinfo;
+const Students = db.students;
 const Op = db.Sequelize.Op;
+const Student = require("../utils/students.js");
 
 //Functions for the pagination
 const getPagination = (page, size) => {
@@ -9,15 +10,15 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: StudentInfo } = data;
+  const { count: totalItems, rows: Students } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, StudentInfo, totalPages, currentPage };
+  return { totalItems, Students, totalPages, currentPage };
 };
 
 //Add a student to the database
 exports.create = (req, res) => {
-  const studentinfo = {
+  const students = {
     level: req.body.level,
     major: req.body.major,
     classification: req.body.classification,
@@ -29,7 +30,7 @@ exports.create = (req, res) => {
     requirementId: req.body.requirementId,
   };
 
-  StudentInfo.create(studentinfo)
+  Students.create(students)
     .then((data) => {
       res.send(data);
     })
@@ -44,7 +45,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  StudentInfo.findAndCountAll({ limit, offset })
+  Students.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -56,12 +57,30 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findAllInfo = async (req, res) => {
+  await Student.getAllStudentDataForUserId(req.params.id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Not Found` + data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
+      });
+    });
+};
+
 //Find a student based on the instructor id
 exports.findInstructorId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const instructorId = req.params.instructorId;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { instructorId: instructorId },
     limit,
     offset,
@@ -83,12 +102,12 @@ exports.findInstructorId = (req, res) => {
     });
 };
 
-//Find a student info based on the user Id
+//Find a student based on the user Id
 exports.findUserId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const userid = req.params.userid;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { userId: userid },
     limit,
     offset,
@@ -115,7 +134,7 @@ exports.findLevel = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const level = req.params.level;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { level: level },
     limit,
     offset,
@@ -142,7 +161,7 @@ exports.findMajor = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const major = req.params.major;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { major: major },
     limit,
     offset,
@@ -169,7 +188,7 @@ exports.findClassification = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const classification = req.params.classification;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { classification: classification },
     limit,
     offset,
@@ -196,7 +215,7 @@ exports.findGoogleId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const googleid = req.params.googleid;
-  StudentInfo.findAndCountAll({
+  Students.findAndCountAll({
     where: { googleid: googleid },
     limit,
     offset,
@@ -218,20 +237,20 @@ exports.findGoogleId = (req, res) => {
     });
 };
 
-//Update studentinfo using the id
+//Update students using the id
 exports.update = (req, res) => {
   const id = req.params.id;
-  StudentInfo.update(req.body, {
+  Students.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "StudentInfo was updated successfully.",
+          message: "Students was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update studentinfo with id=${id}. Maybe studentinfo was not found or req.body is empty!`,
+          message: `Cannot update students with id=${id}. Maybe students was not found or req.body is empty!`,
         });
       }
     })
@@ -242,20 +261,20 @@ exports.update = (req, res) => {
     });
 };
 
-//Delete studentinfo using the id
+//Delete students using the id
 exports.delete = (req, res) => {
   const id = req.params.id;
-  StudentInfo.destroy({
+  Students.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "StudentInfo was deleted successfully!",
+          message: "Students was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete studentinfo with id=${id}. Maybe studentinfo was not found!`,
+          message: `Cannot delete students with id=${id}. Maybe students was not found!`,
         });
       }
     })

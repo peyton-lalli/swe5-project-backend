@@ -20,7 +20,7 @@ exports.create = (req, res) => {
   const eventsignup = {
     timeslot: req.body.timeslot,
     eventId: req.body.eventId,
-    studentinfoId: req.body.studentinfoId,
+    studentId: req.body.studentId,
     ensembleId: req.body.ensembleId,
   };
 
@@ -109,9 +109,9 @@ exports.findEventId = (req, res) => {
 exports.findStudentId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const studentinfoId = req.params.studentinfoId;
+  const studentId = req.params.studentId;
   EventSignUp.findAndCountAll({
-    where: { studentinfoId: studentinfoId },
+    where: { studentId: studentId },
     limit,
     offset,
   })

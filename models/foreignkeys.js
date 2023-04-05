@@ -17,7 +17,7 @@ function addForeignKeys(db) {
   const requirements = db.requirements;
   const roles = db.roles;
   const session = db.session;
-  const studentinfo = db.studentinfo;
+  const students = db.students;
   const studentaccompanist = db.studentaccompanist;
   const studentinstructor = db.studentinstructor;
   const userrole = db.userrole;
@@ -30,7 +30,7 @@ function addForeignKeys(db) {
   ensemble.belongsTo(instructors);
 
   eventsignup.belongsTo(event);
-  eventsignup.belongsTo(studentinfo);
+  eventsignup.belongsTo(students);
   eventsignup.belongsTo(ensemble);
   eventsignup.belongsTo(instructors);
   eventsignup.belongsTo(accompanists);
@@ -41,30 +41,42 @@ function addForeignKeys(db) {
   eventtime.belongsTo(event);
 
   instructors.belongsTo(users);
+  users.hasMany(instructors);
 
-  members.belongsTo(studentinfo);
+  accompanists.belongsTo(users);
+  users.hasMany(accompanists);
+
+  members.belongsTo(students);
   members.belongsTo(ensemble);
 
   pieces.belongsTo(composers);
   pieces.belongsTo(repertoire);
+  composers.hasMany(pieces);
+  repertoire.hasMany(pieces);
 
-  repertoire.belongsTo(studentinfo);
+  repertoire.belongsTo(students);
 
   session.belongsTo(users);
 
-  studentaccompanist.belongsTo(studentinfo);
+  studentaccompanist.belongsTo(students);
   studentaccompanist.belongsTo(accompanists);
+  accompanists.hasMany(studentaccompanist);
 
-  studentinfo.belongsTo(users);
-  studentinfo.belongsTo(members);
-  studentinfo.belongsTo(repertoire);
-  studentinfo.belongsTo(requirements);
+  students.belongsTo(users);
+  students.belongsTo(members);
+  students.belongsTo(repertoire);
+  students.belongsTo(requirements);
 
-  studentinstructor.belongsTo(studentinfo);
+  students.hasMany(studentinstructor, { as: "instructors" });
+  students.hasMany(studentaccompanist, { as: "accompanists" });
+  students.hasMany(repertoire);
+
+  studentinstructor.belongsTo(students);
   studentinstructor.belongsTo(instructors);
+  instructors.hasMany(studentinstructor);
 
   studentinstruments.belongsTo(instruments);
-  studentinstruments.belongsTo(studentinfo);
+  studentinstruments.belongsTo(students);
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);

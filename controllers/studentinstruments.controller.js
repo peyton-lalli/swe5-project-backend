@@ -53,9 +53,9 @@ exports.findAll = (req, res) => {
 exports.findStudent = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const studentinfoid = req.params.studentinfoid;
+  const studentId = req.params.studentId;
   StudentInstruments.findAndCountAll({
-    where: { studentinfoId: studentinfoid },
+    where: { studentId: studentId },
     limit,
     offset,
   })

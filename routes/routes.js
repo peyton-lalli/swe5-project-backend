@@ -22,7 +22,7 @@ module.exports = (app) => {
   const auth = require("../controllers/auth.controller.js");
   const userrole = require("../controllers/userrole.controller.js");
   const users = require("../controllers/users.controller.js");
-  const studentinfo = require("../controllers/studentinfo.controller.js");
+  const students = require("../controllers/students.controller.js");
   const { authenticate } = require("../authorization/authorization.js");
 
   var router = require("express").Router();
@@ -142,7 +142,7 @@ module.exports = (app) => {
     eventsignup.findEnsembleId
   );
   router.get(
-    "/eventsignup/studentinfoid/:studentinfoId",
+    "/eventsignup/studentid/:studentId",
     [authenticate],
     eventsignup.findStudentId
   );
@@ -253,9 +253,9 @@ module.exports = (app) => {
   router.post("/repertoire", [authenticate], repertoire.create);
   router.get("/repertoire", [authenticate], repertoire.findAll);
   router.get(
-    "/repertoire/studentinfoid/:studentinfoid",
+    "/repertoire/studentid/:studentId",
     [authenticate],
-    repertoire.findStudentInfoId
+    repertoire.findStudentId
   );
   router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
@@ -283,41 +283,30 @@ module.exports = (app) => {
   router.get("/roles/type/:type", [authenticate], roles.findType);
   router.delete("/roles/:id", [authenticate], roles.delete);
 
-  // StudentInfo
-  router.post("/studentinfo", [authenticate], studentinfo.create);
-  router.put("/studentinfo/:id", [authenticate], studentinfo.update);
-  router.get("/studentinfo", [authenticate], studentinfo.findAll);
+  // Students
+  router.post("/students", [authenticate], students.create);
+  router.put("/students/:id", [authenticate], students.update);
+  router.get("/students", [authenticate], students.findAll);
+  router.get("/students/allInfo/:id", [authenticate], students.findAllInfo);
   router.get(
-    "/studentinfo/instructorid/:instructorId",
+    "/students/instructorid/:instructorId",
     [authenticate],
-    studentinfo.findInstructorId
+    students.findInstructorId
+  );
+  router.get("/students/userid/:userid", [authenticate], students.findUserId);
+  router.get("/students/level/:level", [authenticate], students.findLevel);
+  router.get("/students/major/:major", [authenticate], students.findMajor);
+  router.get(
+    "/students/classification/:classification",
+    [authenticate],
+    students.findClassification
   );
   router.get(
-    "/studentinfo/userid/:userid",
+    "/students/googleid/:googleid",
     [authenticate],
-    studentinfo.findUserId
+    students.findGoogleId
   );
-  router.get(
-    "/studentinfo/level/:level",
-    [authenticate],
-    studentinfo.findLevel
-  );
-  router.get(
-    "/studentinfo/major/:major",
-    [authenticate],
-    studentinfo.findMajor
-  );
-  router.get(
-    "/studentinfo/classification/:classification",
-    [authenticate],
-    studentinfo.findClassification
-  );
-  router.get(
-    "/studentinfo/googleid/:googleid",
-    [authenticate],
-    studentinfo.findGoogleId
-  );
-  router.delete("/studentinfo/:id", [authenticate], studentinfo.delete);
+  router.delete("/students/:id", [authenticate], students.delete);
 
   //Student Accompanist
   router.post("/studentaccompanist", [authenticate], studentaccompanist.create);
@@ -328,7 +317,7 @@ module.exports = (app) => {
   );
   router.get("/studentaccompanist", [authenticate], studentaccompanist.findAll);
   router.get(
-    "/studentaccompanist/studentinfoid/:studentinfoid",
+    "/studentaccompanist/studentid/:studentId",
     [authenticate],
     studentaccompanist.findStudent
   );
@@ -347,7 +336,7 @@ module.exports = (app) => {
   );
   router.get("/studentinstructors", [authenticate], studentinstructor.findAll);
   router.get(
-    "/studentinstructors/studentinfoid/:studentinfoid",
+    "/studentinstructors/studentId/:studentId",
     [authenticate],
     studentinstructor.findStudent
   );
@@ -371,7 +360,7 @@ module.exports = (app) => {
   );
   router.get("/studentinstruments", [authenticate], studentinstruments.findAll);
   router.get(
-    "/studentinstruments/studentinfoid/:studentinfoid",
+    "/studentinstruments/studentId/:studentId",
     [authenticate],
     studentinstruments.findStudent
   );
