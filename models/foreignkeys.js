@@ -30,6 +30,8 @@ function addForeignKeys(db) {
 
   ensemble.belongsTo(instructors);
 
+  composers.hasMany(pieces);
+
   eventsignup.belongsTo(event);
   eventsignup.belongsTo(students);
   eventsignup.belongsTo(ensemble);
@@ -40,11 +42,9 @@ function addForeignKeys(db) {
 
   eventsignupjuror.belongsTo(eventsignup);
   eventsignupjuror.belongsTo(instructors);
-  instructors.hasMany(eventsignupjuror);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);
-  pieces.hasMany(eventsongs);
 
   eventtime.belongsTo(event);
 
@@ -52,39 +52,40 @@ function addForeignKeys(db) {
   event.hasMany(eventtime, { as: "times" });
 
   instructors.belongsTo(users);
+  instructors.hasMany(eventsignupjuror);
+  instructors.hasMany(studentinstructor);
+
   users.hasMany(instructors);
+  users.hasMany(accompanists);
 
   accompanists.belongsTo(users);
-  users.hasMany(accompanists);
+  accompanists.hasMany(studentaccompanist);
 
   members.belongsTo(students);
   members.belongsTo(ensemble);
 
   pieces.belongsTo(composers);
   pieces.belongsTo(repertoire);
-  composers.hasMany(pieces);
-  repertoire.hasMany(pieces);
+  pieces.hasMany(eventsongs);
 
   repertoire.belongsTo(students);
+  repertoire.hasMany(pieces);
 
   session.belongsTo(users);
 
   studentaccompanist.belongsTo(students);
   studentaccompanist.belongsTo(accompanists);
-  accompanists.hasMany(studentaccompanist);
 
   students.belongsTo(users);
   students.belongsTo(members);
   students.belongsTo(repertoire);
   students.belongsTo(requirements);
-
   students.hasMany(studentinstructor, { as: "instructors" });
   students.hasMany(studentaccompanist, { as: "accompanists" });
   students.hasMany(repertoire);
 
   studentinstructor.belongsTo(students);
   studentinstructor.belongsTo(instructors);
-  instructors.hasMany(studentinstructor);
 
   studentinstruments.belongsTo(instruments);
   studentinstruments.belongsTo(students);
