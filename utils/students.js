@@ -1,6 +1,7 @@
 const db = require("../models");
 const Students = db.students;
 const Repertoire = db.repertoire;
+const StudentRepertoire = db.studentrepertoire;
 const Pieces = db.pieces;
 const Composers = db.composers;
 const Instructors = db.instructors;
@@ -63,30 +64,35 @@ exports.getAllStudentDataForUserId = async (userId) => {
         },
       },
       {
-        model: Repertoire,
-        attributes: [["id", "repertoireId"], "createdAt", "updatedAt"],
+        model: StudentRepertoire,
+        as: "repertoires",
+        attributes: [["id", "studentRepertoireId"]],
         include: {
-          model: Pieces,
-          attributes: [
-            ["id", "pieceId"],
-            "name",
-            "lyrics",
-            "translation",
-            "language",
-            "createdAt",
-            "updatedAt",
-          ],
-
+          model: Repertoire,
+          attributes: [["id", "repertoireId"], "createdAt", "updatedAt"],
           include: {
-            model: Composers,
+            model: Pieces,
             attributes: [
-              ["id", "composerId"],
+              ["id", "pieceId"],
               "name",
-              "birthyear",
-              "deathyear",
+              "lyrics",
+              "translation",
+              "language",
               "createdAt",
               "updatedAt",
             ],
+
+            include: {
+              model: Composers,
+              attributes: [
+                ["id", "composerId"],
+                "name",
+                "birthyear",
+                "deathyear",
+                "createdAt",
+                "updatedAt",
+              ],
+            },
           },
         },
       },

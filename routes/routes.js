@@ -283,7 +283,7 @@ module.exports = (app) => {
   router.get(
     "/repertoire/instrumentId/:instrumentId",
     [authenticate],
-    studentrepertoire.findRepertoireByInstrument
+    repertoire.findRepertoireByInstrument
   );
   router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
