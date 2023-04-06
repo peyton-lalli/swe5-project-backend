@@ -46,6 +46,28 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Get all students for a specific accompanist
+exports.findAllStudentsforAccompanist = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const accompanistId = req.params.accompanistId;
+  StudentAccompanist.findAndCountAll({
+    attributes: ["studentId"],
+    where: { accompanistId: accompanistId },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      const response = getPagingData(data, page, limit);
+      res.send(response);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
 //Find all accompanists for a student
 exports.findStudent = (req, res) => {
   const { page, size } = req.query;
