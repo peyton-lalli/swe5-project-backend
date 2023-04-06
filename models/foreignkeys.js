@@ -36,9 +36,11 @@ function addForeignKeys(db) {
   eventsignup.belongsTo(instructors);
   eventsignup.belongsTo(accompanists);
   eventsignup.hasMany(eventsongs, { as: "songs" });
+  eventsignup.hasMany(eventsignupjuror, { as: "jurors" });
 
   eventsignupjuror.belongsTo(eventsignup);
   eventsignupjuror.belongsTo(instructors);
+  instructors.hasMany(eventsignupjuror);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);
