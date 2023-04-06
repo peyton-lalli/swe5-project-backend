@@ -6,6 +6,7 @@ function addForeignKeys(db) {
   const ensemble = db.ensemble;
   const event = db.event;
   const eventsignup = db.eventsignup;
+  const eventsignupjuror = db.eventsignupjuror;
   const eventsongs = db.eventsongs;
   const eventtime = db.eventtime;
   const instructors = db.instructors;
@@ -34,6 +35,9 @@ function addForeignKeys(db) {
   eventsignup.belongsTo(ensemble);
   eventsignup.belongsTo(instructors);
   eventsignup.belongsTo(accompanists);
+
+  eventsignupjuror.belongsTo(eventsignup);
+  eventsignupjuror.belongsTo(instructors);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);

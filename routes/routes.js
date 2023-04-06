@@ -7,6 +7,7 @@ module.exports = (app) => {
   const ensemble = require("../controllers/ensemble.controller.js");
   const event = require("../controllers/event.controller.js");
   const eventsignup = require("../controllers/eventsignup.controller.js");
+  const eventsignupjuror = require("../controllers/eventsignupjuror.controller.js");
   const eventsongs = require("../controllers/eventsongs.controller.js");
   const eventtime = require("../controllers/eventtime.controller.js");
   const instructors = require("../controllers/instructors.controller.js");
@@ -147,6 +148,26 @@ module.exports = (app) => {
     eventsignup.findStudentId
   );
   router.delete("/eventsignup/:id", [authenticate], eventsignup.delete);
+
+  // Event Signup Juror
+  router.post("/eventsignupjuror", [authenticate], eventsignupjuror.create);
+  router.put("/eventsignupjuror/:id", [authenticate], eventsignupjuror.update);
+  router.get("/eventsignupjuror", [authenticate], eventsignupjuror.findAll);
+  router.get(
+    "/eventsignupjuror/eventsignupid/:eventsignupId",
+    [authenticate],
+    eventsignupjuror.findEventSignUpJurorsBySignUpId
+  );
+  router.get(
+    "/eventsignupjuror/instructorid/:instructorId",
+    [authenticate],
+    eventsignupjuror.findEventSignUpJurorsByInstructorId
+  );
+  router.delete(
+    "/eventsignupjuror/:id",
+    [authenticate],
+    eventsignupjuror.delete
+  );
 
   // Event Songs
   router.post("/eventsongs", [authenticate], eventsongs.create);
