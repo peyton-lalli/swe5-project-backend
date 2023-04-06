@@ -50,6 +50,10 @@ db.studentinstruments = require("./studentinstruments.model.js")(
   sequelize,
   Sequelize
 );
+db.studentrepertoire = require("./studentrepertoire.model.js")(
+  sequelize,
+  Sequelize
+);
 db.userrole = require("./userrole.model.js")(sequelize, Sequelize);
 db.users = require("./users.model.js")(sequelize, Sequelize);
 

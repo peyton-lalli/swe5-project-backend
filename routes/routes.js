@@ -24,6 +24,7 @@ module.exports = (app) => {
   const userrole = require("../controllers/userrole.controller.js");
   const users = require("../controllers/users.controller.js");
   const students = require("../controllers/students.controller.js");
+  const studentrepertoire = require("../controllers/studentrepertoire.controller.js");
   const { authenticate } = require("../authorization/authorization.js");
 
   var router = require("express").Router();
@@ -272,11 +273,12 @@ module.exports = (app) => {
 
   // Repertoire
   router.post("/repertoire", [authenticate], repertoire.create);
+  router.put("/repertoire/:id", [authenticate], repertoire.update);
   router.get("/repertoire", [authenticate], repertoire.findAll);
   router.get(
-    "/repertoire/studentid/:studentId",
+    "/repertoire/instrumentId/:instrumentId",
     [authenticate],
-    repertoire.findStudentId
+    studentrepertoire.findRepertoireByInstrument
   );
   router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
@@ -394,6 +396,30 @@ module.exports = (app) => {
     "/studentinstruments/:id",
     [authenticate],
     studentinstruments.delete
+  );
+
+  // Student Repertoire
+  router.post("/studentrepertoire", [authenticate], studentrepertoire.create);
+  router.put(
+    "/studentrepertoire/:id",
+    [authenticate],
+    studentrepertoire.update
+  );
+  router.get("/studentrepertoire", [authenticate], studentrepertoire.findAll);
+  router.get(
+    "/studentrepertoire/studentId/:studentId",
+    [authenticate],
+    studentrepertoire.findStudentRepertoireByStudent
+  );
+  router.get(
+    "/studentrepertoire/repertoireId/:repertoireId",
+    [authenticate],
+    studentrepertoire.findStudentRepertoireByRepertoire
+  );
+  router.delete(
+    "/studentrepertoire/:id",
+    [authenticate],
+    studentrepertoire.delete
   );
 
   // User Roles
