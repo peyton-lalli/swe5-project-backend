@@ -23,6 +23,10 @@ db.critiques = require("./critiques.model.js")(sequelize, Sequelize);
 db.ensemble = require("./ensemble.model.js")(sequelize, Sequelize);
 db.event = require("./event.model.js")(sequelize, Sequelize);
 db.eventsignup = require("./eventsignup.model.js")(sequelize, Sequelize);
+db.eventsignupjuror = require("./eventsignupjuror.model.js")(
+  sequelize,
+  Sequelize
+);
 db.eventsongs = require("./eventsongs.model.js")(sequelize, Sequelize);
 db.eventtime = require("./eventtime.model.js")(sequelize, Sequelize);
 db.instructors = require("./instructors.model.js")(sequelize, Sequelize);
