@@ -265,9 +265,9 @@ module.exports = (app) => {
   );
   router.get("/pieces/language/:language", [authenticate], pieces.findLanguage);
   router.get(
-    "/pieces/studentrepertoireid/:studentrepertoireId",
+    "/pieces/repertoireid/:repertoireId",
     [authenticate],
-    pieces.findStudentRepertoireId
+    pieces.findRepertoireId
   );
   router.delete("/pieces/:id", [authenticate], pieces.delete);
 
@@ -275,6 +275,11 @@ module.exports = (app) => {
   router.post("/repertoire", [authenticate], repertoire.create);
   router.put("/repertoire/:id", [authenticate], repertoire.update);
   router.get("/repertoire", [authenticate], repertoire.findAll);
+  router.get(
+    "/repertoire/instrumentId/:instrumentId",
+    [authenticate],
+    studentrepertoire.findRepertoireByInstrument
+  );
   router.delete("/repertoire/:id", [authenticate], repertoire.delete);
 
   // Requirements
@@ -410,11 +415,6 @@ module.exports = (app) => {
     "/studentrepertoire/repertoireId/:repertoireId",
     [authenticate],
     studentrepertoire.findStudentRepertoireByRepertoire
-  );
-  router.get(
-    "/studentrepertoire/instrumentId/:instrumentId",
-    [authenticate],
-    studentrepertoire.findStudentRepertoireByInstrument
   );
   router.delete(
     "/studentrepertoire/:id",

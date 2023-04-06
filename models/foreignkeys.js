@@ -55,7 +55,7 @@ function addForeignKeys(db) {
   members.belongsTo(ensemble);
 
   pieces.belongsTo(composers);
-  pieces.belongsTo(studentrepertoire);
+  pieces.belongsTo(repertoire);
   composers.hasMany(pieces);
 
   session.belongsTo(users);
@@ -80,7 +80,7 @@ function addForeignKeys(db) {
 
   studentrepertoire.belongsTo(students);
   studentrepertoire.belongsTo(repertoire);
-  studentrepertoire.belongsTo(instruments);
+  repertoire.belongsTo(instruments);
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);
