@@ -1,5 +1,5 @@
 const db = require("../models");
-const Repertoire = db.repertoire;
+const StudentRepertoire = db.studentrepertoire;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -9,19 +9,20 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: Repertoire } = data;
+  const { count: totalItems, rows: StudentRepertoire } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  return { totalItems, Repertoire, totalPages, currentPage };
+  return { totalItems, StudentRepertoire, totalPages, currentPage };
 };
 
-//Add an repertoire to the database
+//Add an studentrepertoire to the database
 exports.create = (req, res) => {
-  const repertoire = {
-    studentinfoId: req.body.studentinfoId,
+  const studentrepertoire = {
+    studentId: req.body.studentId,
+    repertoireId: req.body.repertoireId,
   };
 
-  Repertoire.create(repertoire)
+  StudentRepertoire.create(studentrepertoire)
     .then((data) => {
       res.send(data);
     })
@@ -32,11 +33,11 @@ exports.create = (req, res) => {
     });
 };
 
-//Get a list of all of the repertoires in the database
+//Get a list of all of the studentrepertoires in the database
 exports.findAll = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  Repertoire.findAndCountAll({ limit, offset })
+  StudentRepertoire.findAndCountAll({ limit, offset })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -48,13 +49,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a repertoire based on the instrument id
-exports.findRepertoireByInstrument = (req, res) => {
+//Find student repertoire based on student id
+exports.findStudentRepertoireByStudent = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const instrumentId = req.params.instrumentId;
-  Repertoire.findAndCountAll({
-    where: { instrumentId: instrumentId },
+  const studentId = req.params.studentId;
+  StudentRepertoire.findAndCountAll({
+    where: { studentId: studentId },
     limit,
     offset,
   })
@@ -75,20 +76,23 @@ exports.findRepertoireByInstrument = (req, res) => {
     });
 };
 
-//Update repertoire using the id
-exports.update = (req, res) => {
-  const id = req.params.id;
-  Repertoire.update(req.body, {
-    where: { id: id },
+// Find a student repertoire based on the repertoire id
+exports.findStudentRepertoireByRepertoire = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const repertoireId = req.params.repertoireId;
+  StudentRepertoire.findAndCountAll({
+    where: { repertoireId: repertoireId },
+    limit,
+    offset,
   })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: "Repertoire was updated successfully.",
-        });
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
       } else {
-        res.send({
-          message: `Cannot update repertoire with id=${id}. Maybe repertoire was not found or req.body is empty!`,
+        res.status(404).send({
+          message: `Not Found`,
         });
       }
     })
@@ -99,20 +103,44 @@ exports.update = (req, res) => {
     });
 };
 
-//Delete repertoire using the id
-exports.delete = (req, res) => {
+//Update student repertoire using the id
+exports.update = (req, res) => {
   const id = req.params.id;
-  Repertoire.destroy({
+  StudentRepertoire.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Repertoire was deleted successfully!",
+          message: "Student Repertoire was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot delete repertoire with id=${id}. Maybe repertoire was not found!`,
+          message: `Cannot update student repertoire with id=${id}. Maybe repertoire was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
+//Delete studentrepertoire using the id
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  StudentRepertoire.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "StudentRepertoire was deleted successfully!",
+        });
+      } else {
+        res.send({
+          message: `Cannot delete studentrepertoire with id=${id}. Maybe studentrepertoire was not found!`,
         });
       }
     })

@@ -21,6 +21,7 @@ function addForeignKeys(db) {
   const students = db.students;
   const studentaccompanist = db.studentaccompanist;
   const studentinstructor = db.studentinstructor;
+  const studentrepertoire = db.studentrepertoire;
   const userrole = db.userrole;
   const users = db.users;
 
@@ -68,9 +69,6 @@ function addForeignKeys(db) {
   pieces.belongsTo(repertoire);
   pieces.hasMany(eventsongs);
 
-  repertoire.belongsTo(students);
-  repertoire.hasMany(pieces);
-
   session.belongsTo(users);
 
   studentaccompanist.belongsTo(students);
@@ -78,17 +76,21 @@ function addForeignKeys(db) {
 
   students.belongsTo(users);
   students.belongsTo(members);
-  students.belongsTo(repertoire);
   students.belongsTo(requirements);
   students.hasMany(studentinstructor, { as: "instructors" });
   students.hasMany(studentaccompanist, { as: "accompanists" });
-  students.hasMany(repertoire);
 
   studentinstructor.belongsTo(students);
   studentinstructor.belongsTo(instructors);
 
   studentinstruments.belongsTo(instruments);
   studentinstruments.belongsTo(students);
+
+  studentrepertoire.belongsTo(students);
+  studentrepertoire.belongsTo(repertoire);
+
+  repertoire.belongsTo(instruments);
+  repertoire.hasMany(pieces);
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);
