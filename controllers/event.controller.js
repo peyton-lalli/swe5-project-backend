@@ -1,6 +1,7 @@
 const db = require("../models");
 const Event = db.event;
 const Op = db.Sequelize.Op;
+const EventUtil = require("../utils/events.js");
 
 //Functions for the pagination
 const getPagination = (page, size) => {
@@ -46,6 +47,25 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Get a list of all of the events with all of their related info in the database
+exports.findAllEventsWithInfo = async (req, res) => {
+  await EventUtil.getAllEvents()
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Not Found` + data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
       });
     });
 };

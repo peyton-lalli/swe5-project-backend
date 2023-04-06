@@ -117,6 +117,11 @@ module.exports = (app) => {
   router.post("/event", [authenticate], event.create);
   router.put("/event/:id", [authenticate], event.update);
   router.get("/event", [authenticate], event.findAll);
+  router.get(
+    "/event/allEventsWithInfo",
+    [authenticate],
+    event.findAllEventsWithInfo
+  );
   router.get("event/id/:id", [authenticate], event.findId);
   router.get("/event/type/:type", [authenticate], event.findType);
   router.get("/event/date/:date", [authenticate], event.findDate);
