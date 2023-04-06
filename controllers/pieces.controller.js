@@ -188,12 +188,12 @@ exports.findLanguage = (req, res) => {
 };
 
 //Find a piece based on the repertoire id
-exports.findRepertoireId = (req, res) => {
+exports.findStudentRepertoireId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const repertoireId = req.params.repertoireId;
+  const studentrepertoireId = req.params.studentrepertoireId;
   Pieces.findAndCountAll({
-    where: { repertoireId: repertoireId },
+    where: { studentrepertoireId: studentrepertoireId },
     limit,
     offset,
   })

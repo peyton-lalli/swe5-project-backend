@@ -48,23 +48,20 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find repertoire based on student info id
-exports.findStudentId = (req, res) => {
-  const { page, size } = req.query;
-  const { limit, offset } = getPagination(page, size);
-  const studentId = req.params.studentId;
-  Repertoire.findAndCountAll({
-    where: { studentId: studentId },
-    limit,
-    offset,
+//Update repertoire using the id
+exports.update = (req, res) => {
+  const id = req.params.id;
+  Repertoire.update(req.body, {
+    where: { id: id },
   })
-    .then((data) => {
-      if (data) {
-        const response = getPagingData(data, page, limit);
-        res.send(response);
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Repertoire was updated successfully.",
+        });
       } else {
-        res.status(404).send({
-          message: `Not Found`,
+        res.send({
+          message: `Cannot update repertoire with id=${id}. Maybe repertoire was not found or req.body is empty!`,
         });
       }
     })
