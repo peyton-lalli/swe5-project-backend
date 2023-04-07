@@ -340,6 +340,11 @@ module.exports = (app) => {
   );
   router.get("/studentaccompanist", [authenticate], studentaccompanist.findAll);
   router.get(
+    "/studentaccompanist/getStudents/:id",
+    [authenticate],
+    studentaccompanist.findAllStudentsforAccompanist
+  );
+  router.get(
     "/studentaccompanist/studentid/:studentId",
     [authenticate],
     studentaccompanist.findStudent
@@ -358,6 +363,11 @@ module.exports = (app) => {
     studentinstructor.update
   );
   router.get("/studentinstructors", [authenticate], studentinstructor.findAll);
+  router.get(
+    "/studentinstructors/getStudents/:id",
+    [authenticate],
+    studentinstructor.findAllStudentsforInstructor
+  );
   router.get(
     "/studentinstructors/studentId/:studentId",
     [authenticate],
