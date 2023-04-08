@@ -22,6 +22,8 @@ exports.create = (req, res) => {
     eventId: req.body.eventId,
     studentId: req.body.studentId,
     ensembleId: req.body.ensembleId,
+    instructorId: req.body.instructorId,
+    accompanistId: req.body.accompanistId,
   };
 
   EventSignUp.create(eventsignup)
@@ -178,7 +180,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error",
+        message: "Error" + err,
       });
     });
 };

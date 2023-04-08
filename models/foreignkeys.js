@@ -31,11 +31,15 @@ function addForeignKeys(db) {
 
   ensemble.belongsTo(instructors);
 
+  composers.hasMany(pieces);
+
   eventsignup.belongsTo(event);
   eventsignup.belongsTo(students);
   eventsignup.belongsTo(ensemble);
   eventsignup.belongsTo(instructors);
   eventsignup.belongsTo(accompanists);
+  eventsignup.hasMany(eventsongs, { as: "songs" });
+  eventsignup.hasMany(eventsignupjuror, { as: "jurors" });
 
   eventsignupjuror.belongsTo(eventsignup);
   eventsignupjuror.belongsTo(instructors);
@@ -45,42 +49,50 @@ function addForeignKeys(db) {
 
   eventtime.belongsTo(event);
 
+  event.hasMany(eventsignup, { as: "signups" });
+  event.hasMany(eventtime, { as: "times" });
+
   instructors.belongsTo(users);
+  instructors.hasMany(eventsignupjuror);
+  instructors.hasMany(studentinstructor);
+
   users.hasMany(instructors);
+  users.hasMany(accompanists);
 
   accompanists.belongsTo(users);
-  users.hasMany(accompanists);
+  accompanists.hasMany(studentaccompanist);
 
   members.belongsTo(students);
   members.belongsTo(ensemble);
 
   pieces.belongsTo(composers);
   pieces.belongsTo(repertoire);
-  composers.hasMany(pieces);
+  pieces.hasMany(eventsongs);
 
   session.belongsTo(users);
 
   studentaccompanist.belongsTo(students);
   studentaccompanist.belongsTo(accompanists);
-  accompanists.hasMany(studentaccompanist);
 
   students.belongsTo(users);
   students.belongsTo(members);
   students.belongsTo(requirements);
-
   students.hasMany(studentinstructor, { as: "instructors" });
   students.hasMany(studentaccompanist, { as: "accompanists" });
+  students.hasMany(studentrepertoire, { as: "repertoires" });
 
   studentinstructor.belongsTo(students);
   studentinstructor.belongsTo(instructors);
-  instructors.hasMany(studentinstructor);
 
   studentinstruments.belongsTo(instruments);
   studentinstruments.belongsTo(students);
 
   studentrepertoire.belongsTo(students);
   studentrepertoire.belongsTo(repertoire);
+
   repertoire.belongsTo(instruments);
+  repertoire.hasMany(pieces);
+  repertoire.hasMany(studentrepertoire);
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);
