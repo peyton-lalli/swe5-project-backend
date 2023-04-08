@@ -16,6 +16,8 @@ exports.getAllEvents = async () => {
       "date",
       ["createdAt", "eventCreatedAt"],
       ["updatedAt", "eventUpdatedAt"],
+      "type",
+      "title",
     ],
     include: [
       {
@@ -28,6 +30,7 @@ exports.getAllEvents = async () => {
         as: "signups",
         attributes: [
           ["id", "signupId"],
+          "eventId",
           "accompanistId",
           "instructorId",
           "ensembleId",
