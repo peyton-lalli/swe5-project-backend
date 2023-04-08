@@ -55,6 +55,7 @@ exports.findEventSignUpJurorsBySignUpId = (req, res) => {
   const { limit, offset } = getPagination(page, size);
   const eventsignupId = req.params.eventsignupId;
   EventSignUpJuror.findAndCountAll({
+    attributes: ["instructorId"],
     where: { eventsignupId: eventsignupId },
     limit,
     offset,
