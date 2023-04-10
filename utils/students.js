@@ -5,10 +5,12 @@ const StudentRepertoire = db.studentrepertoire;
 const Pieces = db.pieces;
 const Composers = db.composers;
 const Instructors = db.instructors;
+const Instruments = db.instruments;
 const Users = db.users;
 const Accompanists = db.accompanists;
 const StudentInstructor = db.studentinstructor;
 const StudentAccompanist = db.studentaccompanist;
+const StudentInstruments = db.studentinstruments;
 
 exports.getAllStudentDataForUserId = async (userId) => {
   const stud = await Students.findAll({
@@ -66,7 +68,7 @@ exports.getAllStudentDataForUserId = async (userId) => {
       {
         model: StudentRepertoire,
         as: "repertoires",
-        attributes: [["id", "studentRepertoireId"]],
+        attributes: [["id", "studentRepertoireId"], "studentinstrumentId"],
         include: {
           model: Repertoire,
           attributes: [["id", "repertoireId"], "createdAt", "updatedAt"],
@@ -94,6 +96,25 @@ exports.getAllStudentDataForUserId = async (userId) => {
               ],
             },
           },
+        },
+      },
+      {
+        model: StudentInstruments,
+        as: "instruments",
+        attributes: [
+          ["id", "studentinstrumentId"],
+          ["createdAt", "studentInstrumentCreatedAt"],
+          ["updatedAt", "studentInstrumentUpdatedAt"],
+        ],
+        include: {
+          model: Instruments,
+          attributes: [
+            ["id", "instrumentId"],
+            "name",
+            "type",
+            ["createdAt", "instrumentCreatedAt"],
+            ["updatedAt", "instrumentUpdatedAt"],
+          ],
         },
       },
     ],
