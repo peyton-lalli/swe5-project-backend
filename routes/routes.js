@@ -63,6 +63,11 @@ module.exports = (app) => {
     availability.findInstructorId
   );
   router.get(
+    "/availability/getByInstructorAndEvent/:instructorId/:eventId",
+    [authenticate],
+    availability.findInstructorAndEvent
+  );
+  router.get(
     "/availability/startdate/:startdate",
     [authenticate],
     availability.findStartDate

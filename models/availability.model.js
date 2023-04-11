@@ -2,11 +2,11 @@ const { SqlError } = require("mariadb");
 
 module.exports = (sequelize, Sequelize) => {
   const Availability = sequelize.define("availability", {
-    datetimestart: {
-      type: Sequelize.DATE,
+    starttime: {
+      type: Sequelize.TIME,
     },
-    datetimeend: {
-      type: Sequelize.DATE,
+    endtime: {
+      type: Sequelize.TIME,
     },
     id: {
       type: Sequelize.INTEGER,

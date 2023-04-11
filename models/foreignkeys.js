@@ -26,6 +26,7 @@ function addForeignKeys(db) {
   const users = db.users;
 
   availability.belongsTo(instructors);
+  availability.belongsTo(event);
 
   critiques.belongsTo(eventsignup);
 
@@ -53,10 +54,12 @@ function addForeignKeys(db) {
 
   event.hasMany(eventsignup, { as: "signups" });
   event.hasMany(eventtime, { as: "times" });
+  event.hasMany(availability);
 
   instructors.belongsTo(users);
   instructors.hasMany(eventsignupjuror);
   instructors.hasMany(studentinstructor);
+  instructors.hasMany(availability, { as: "availabilities" });
 
   users.hasMany(instructors);
   users.hasMany(accompanists);

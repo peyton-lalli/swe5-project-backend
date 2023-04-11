@@ -1,5 +1,6 @@
 const db = require("../models");
 const Availability = db.availability;
+const Event = db.event;
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -54,9 +55,9 @@ exports.findAll = (req, res) => {
 exports.findInstructorId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const instructorid = req.params.instructorid;
+  const instructorId = req.params.instructorId;
   Availability.findAndCountAll({
-    where: { instructorId: instructorid },
+    where: { instructorId: instructorId },
     limit,
     offset,
   })
@@ -73,6 +74,42 @@ exports.findInstructorId = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: "Error",
+      });
+    });
+};
+
+//Find availability based on a specific instructorId and eventId
+exports.findInstructorAndEvent = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const instructorId = req.params.instructorId;
+  const eventId = req.params.eventId;
+  Availability.findAndCountAll({
+    where: { instructorId: instructorId, eventId: eventId },
+    attributes: [
+      ["id", "availabilityId"],
+      ["starttime", "startTime"],
+      ["endtime", "endTime"],
+      "instructorId",
+      "eventId",
+    ],
+    include: { model: Event, attributes: [["date", "eventDate"]] },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
       });
     });
 };
