@@ -49,6 +49,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find a student instrument based on the id
+exports.findStudentInstrumentById = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  StudentInstruments.findAndCountAll({
+    where: { id: id },
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error",
+      });
+    });
+};
+
 //Find a student instrument based on the student id
 exports.findStudent = (req, res) => {
   const { page, size } = req.query;
