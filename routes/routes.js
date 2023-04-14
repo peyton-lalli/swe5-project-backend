@@ -50,6 +50,11 @@ module.exports = (app) => {
   router.post("/accompanists", [authenticate], accompanists.create);
   router.put("/accompanists/:id", [authenticate], accompanists.update);
   router.get("/accompanists", [authenticate], accompanists.findAll);
+  router.get(
+    "/accompanists/id/:id",
+    [authenticate],
+    accompanists.findAccompanistsById
+  );
   router.delete("/accompanists/:id", [authenticate], accompanists.delete);
 
   // Availability
@@ -133,6 +138,11 @@ module.exports = (app) => {
   router.post("/eventsignup", [authenticate], eventsignup.create);
   router.put("/eventsignup/:id", [authenticate], eventsignup.update);
   router.get("/eventsignup", [authenticate], eventsignup.findAll);
+  router.get(
+    "/eventsignup/id/:id",
+    [authenticate],
+    eventsignup.findEventSignUpById
+  );
   router.get(
     "/eventsignup/timeslot/:timeslot",
     [authenticate],
@@ -242,6 +252,11 @@ module.exports = (app) => {
   router.post("/instruments", [authenticate], instruments.create);
   router.put("/instruments/:id", [authenticate], instruments.update);
   router.get("/instruments", [authenticate], instruments.findAll);
+  router.get(
+    "/instruments/id/:id",
+    [authenticate],
+    instruments.findInstrumentById
+  );
   router.get("/instruments/type/:type", [authenticate], instruments.findType);
   router.get("/instruments/name/:name", [authenticate], instruments.findName);
   router.delete("/instruments/:id", [authenticate], instruments.delete);
@@ -316,6 +331,7 @@ module.exports = (app) => {
   router.put("/students/:id", [authenticate], students.update);
   router.get("/students", [authenticate], students.findAll);
   router.get("/students/allInfo/:id", [authenticate], students.findAllInfo);
+  router.get("/students/id/:id", [authenticate], students.findStudentById);
   router.get(
     "/students/instructorid/:instructorId",
     [authenticate],
@@ -369,7 +385,7 @@ module.exports = (app) => {
   );
   router.get("/studentinstructors", [authenticate], studentinstructor.findAll);
   router.get(
-    "/studentinstructors/getStudents/:id",
+    "/studentinstructors/getStudents/:instructorId",
     [authenticate],
     studentinstructor.findAllStudentsforInstructor
   );
@@ -397,6 +413,11 @@ module.exports = (app) => {
     studentinstruments.update
   );
   router.get("/studentinstruments", [authenticate], studentinstruments.findAll);
+  router.get(
+    "/studentinstruments/id/:id",
+    [authenticate],
+    studentinstruments.findStudentInstrumentById
+  );
   router.get(
     "/studentinstruments/studentId/:studentId",
     [authenticate],
