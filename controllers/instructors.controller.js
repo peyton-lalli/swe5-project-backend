@@ -77,13 +77,14 @@ exports.findUserId = (req, res) => {
     });
 };
 
-//Find an instructors based on the user ID
+//Find an instructors based on the instructor ID
 exports.findInstructorId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const instructorId = req.params.id;
   Instructors.findAndCountAll({
     where: { id: instructorId },
+    include: [{ model: db.users, attributes: ["fName", "lName", "picture"] }],
     limit,
     offset,
   })
