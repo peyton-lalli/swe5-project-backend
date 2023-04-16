@@ -330,6 +330,11 @@ module.exports = (app) => {
   router.post("/students", [authenticate], students.create);
   router.put("/students/:id", [authenticate], students.update);
   router.get("/students", [authenticate], students.findAll);
+  router.get(
+    "/students/allRepertoires/:id",
+    [authenticate],
+    students.getStudentRepertoiresByStudentId
+  );
   router.get("/students/allInfo/:id", [authenticate], students.findAllInfo);
   router.get("/students/id/:id", [authenticate], students.findStudentById);
   router.get(

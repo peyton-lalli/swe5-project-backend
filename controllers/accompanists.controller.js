@@ -51,7 +51,12 @@ exports.findAccompanistsById = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
   const id = req.params.id;
-  Accompanists.findAndCountAll({ where: { id: id }, limit, offset })
+  Accompanists.findAndCountAll({
+    where: { id: id },
+    include: [{ model: db.users, attributes: ["fName", "lName", "picture"] }],
+    limit,
+    offset,
+  })
     .then((data) => {
       const response = getPagingData(data, page, limit);
       res.send(response);

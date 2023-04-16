@@ -82,6 +82,7 @@ exports.findStudentById = (req, res) => {
   const id = req.params.id;
   Students.findAndCountAll({
     where: { id: id },
+    include: [{ model: db.users, attributes: ["fName", "lName", "picture"] }],
     limit,
     offset,
   })
@@ -98,6 +99,61 @@ exports.findStudentById = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: "Error",
+      });
+    });
+};
+
+//Find a student based on the student id
+exports.getStudentRepertoiresByStudentId = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Students.findAndCountAll({
+    where: { id: id },
+    attributes: ["id"],
+    include: [
+      {
+        model: db.studentrepertoire,
+        as: "repertoires",
+        attributes: ["id", "repertoireId"],
+        include: [
+          {
+            model: db.studentinstruments,
+            attributes: ["id"],
+            include: [
+              { model: db.instruments, attributes: ["id", "name", "type"] },
+            ],
+          },
+          {
+            model: db.repertoire,
+            as: "repertoire",
+            include: [
+              {
+                model: db.pieces,
+                attributes: ["id", "name", "composerId"],
+                include: [{ model: db.composers, attributes: ["id", "name"] }],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    limit,
+    offset,
+  })
+    .then((data) => {
+      if (data) {
+        const response = getPagingData(data, page, limit);
+        res.send(response);
+      } else {
+        res.status(404).send({
+          message: `Not Found`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
       });
     });
 };
