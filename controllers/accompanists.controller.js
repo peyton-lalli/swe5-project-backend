@@ -46,6 +46,27 @@ exports.findAll = (req, res) => {
     });
 };
 
+//Find an accompanists based on the id
+exports.findAccompanistsById = (req, res) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  const id = req.params.id;
+  Accompanists.findAndCountAll({
+    where: { id: id },
+    include: [{ model: db.users, attributes: ["fName", "lName", "picture"] }],
+    limit,
+    offset,
+  })
+    .then((data) => {
+      const response = getPagingData(data, page, limit);
+      res.send(response);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something happend, try again!",
+      });
+    });
+};
 //Update an accompanists using the accompanists id
 exports.update = (req, res) => {
   const id = req.params.id;
