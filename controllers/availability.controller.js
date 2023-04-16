@@ -19,9 +19,10 @@ const getPagingData = (data, page, limit) => {
 //Add availability to the database
 exports.create = (req, res) => {
   const availability = {
-    datetimestart: req.body.datetimestart,
-    datetimeend: req.body.datetimeend,
-    instructorId: req.body.instructorId,
+    starttime: req.body.starttime,
+    endtime: req.body.endtime,
+    userId: req.body.userId,
+    eventId: req.body.eventId,
   };
 
   Availability.create(availability)
@@ -79,18 +80,18 @@ exports.findInstructorId = (req, res) => {
 };
 
 //Find availability based on a specific instructorId and eventId
-exports.findInstructorAndEvent = (req, res) => {
+exports.findUserAndEvent = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const instructorId = req.params.instructorId;
+  const userId = req.params.userId;
   const eventId = req.params.eventId;
   Availability.findAndCountAll({
-    where: { instructorId: instructorId, eventId: eventId },
+    where: { userId: userId, eventId: eventId },
     attributes: [
       ["id", "availabilityId"],
       ["starttime", "startTime"],
       ["endtime", "endTime"],
-      "instructorId",
+      "userId",
       "eventId",
     ],
     include: { model: Event, attributes: [["date", "eventDate"]] },

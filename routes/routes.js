@@ -63,9 +63,9 @@ module.exports = (app) => {
     availability.findInstructorId
   );
   router.get(
-    "/availability/getByInstructorAndEvent/:instructorId/:eventId",
+    "/availability/getByUserAndEvent/:userId/:eventId",
     [authenticate],
-    availability.findInstructorAndEvent
+    availability.findUserAndEvent
   );
   router.get(
     "/availability/startdate/:startdate",
@@ -221,6 +221,12 @@ module.exports = (app) => {
   router.post("/instructors", [authenticate], instructors.create);
   router.put("/instructors/:id", [authenticate], instructors.update);
   router.get("/instructors", [authenticate], instructors.findAll);
+  router.get(
+    "/instructors/allInfo/:id",
+    [authenticate],
+    instructors.findAllInfo
+  );
+
   router.get(
     "/instructors/userid/:userid",
     [authenticate],
