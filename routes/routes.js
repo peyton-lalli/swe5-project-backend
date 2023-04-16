@@ -102,9 +102,9 @@ module.exports = (app) => {
   router.put("/critiques/:id", [authenticate], critiques.update);
   router.get("/critiques", [authenticate], critiques.findAll);
   router.get(
-    "/critiques/instructor/:instructor",
+    "/critiques/eventid/:eventsignupId",
     [authenticate],
-    critiques.findInstructor
+    critiques.findCritiqueByEventId
   );
   router.delete("/critiques/:id", [authenticate], critiques.delete);
 
