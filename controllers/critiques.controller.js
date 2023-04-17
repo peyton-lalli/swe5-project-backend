@@ -18,9 +18,21 @@ const getPagingData = (data, page, limit) => {
 //Add a critique to the database
 exports.create = (req, res) => {
   const critiques = {
-    critiquetext: req.body.critiquetext,
-    instructorid: req.body.instructorid,
-    eventId: req.body.eventid,
+    isExpanded: req.body.isExpanded,
+    critiqueText: req.body.critiqueText,
+    eventsignupId: req.body.eventsignupId,
+    deportment: req.body.deportment,
+    deportmentRating: req.body.deportmentRating,
+    diction: req.body.diction,
+    dictionRating: req.body.dictionRating,
+    tone: req.body.tone,
+    toneRating: req.body.toneRating,
+    interpretation: req.body.interpretation,
+    interpretationRating: req.body.interpretationRating,
+    accuracy: req.body.accuracy,
+    accuracyRating: req.body.accuracyRating,
+    balance: req.body.balance,
+    balanceRating: req.body.balanceRating,
   };
 
   Critiques.create(critiques)
@@ -50,13 +62,13 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Find a critiques based on the instructor id
-exports.findInstructor = (req, res) => {
+//Find a critiques based on the event sign up id
+exports.findCritiqueByEventId = (req, res) => {
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const id = req.params.instructorid;
+  const eventsignupId = req.params.eventsignupId;
   Critiques.findAndCountAll({
-    where: { instructorid: id },
+    where: { eventsignupId: eventsignupId },
     limit,
     offset,
   })
