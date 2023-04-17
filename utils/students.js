@@ -89,6 +89,7 @@ exports.getAllStudentDataForUserId = async (userId) => {
               attributes: [
                 ["id", "composerId"],
                 "name",
+                "picture",
                 "birthyear",
                 "deathyear",
                 "createdAt",
