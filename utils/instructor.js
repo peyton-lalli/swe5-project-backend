@@ -4,6 +4,7 @@ const Instructors = db.instructors;
 const Users = db.users;
 const Availability = db.availability;
 const StudentInstructor = db.studentinstructor;
+const StudentInstruments = db.studentinstruments;
 
 exports.getAllInstructorDataForUserId = async (userId) => {
   const ins = await Instructors.findAll({
@@ -27,15 +28,19 @@ exports.getAllInstructorDataForUserId = async (userId) => {
         model: StudentInstructor,
         attributes: [["id", "studentInstructorId"]],
         include: {
-          model: Students,
-          attributes: [
-            ["id", "studentId"],
-            "level",
-            "major",
-            "classification",
-            "semesters",
-            "userId",
-          ],
+          model: StudentInstruments,
+          attributes: [["id", "studentinstrumentId"]],
+          include: {
+            model: Students,
+            attributes: [
+              ["id", "studentId"],
+              "level",
+              "major",
+              "classification",
+              "semesters",
+              "userId",
+            ],
+          },
         },
       },
     ],

@@ -30,7 +30,7 @@ exports.getAllStudentDataForUserId = async (userId) => {
       {
         model: StudentInstructor,
         as: "instructors",
-        attributes: [["id", "studentinstructorId"]],
+        attributes: [["id", "studentinstructorId"], "studentinstrumentId"],
         include: {
           model: Instructors,
           attributes: [["id", "instructorId"], "title"],
