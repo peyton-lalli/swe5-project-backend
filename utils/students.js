@@ -82,6 +82,7 @@ exports.getAllStudentDataForUserId = async (userId) => {
               "language",
               "createdAt",
               "updatedAt",
+              "repertoireId",
             ],
 
             include: {
