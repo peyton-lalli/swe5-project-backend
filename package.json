@@ -2,7 +2,7 @@
   "name": "swe5-project-backend",
   "version": "0.0.0",
   "private": true,
-  "scripts": {    
+  "scripts": {
     "start": "node app.js",
     "bundle": "mkdir deploy && cp -r authorization config controllers models routes app.js package.json package-lock.json performance-t3-backend.service .env deploy && rm deploy/config/db.config.js && mv deploy/config/prod.db.config.js deploy/config/db.config.js"
   },
@@ -13,17 +13,17 @@
     "cors": "^2.8.5",
     "csv": "^6.2.2",
     "csv-parse": "^5.3.2",
-    "debug": "~2.6.9",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.3",
-    "express": "~4.16.1",
-    "googleapis": "^109.0.1",
-    "http-errors": "~1.6.3",
-    "jsonwebtoken": "^8.5.1",
-    "mariadb": "^2.4.2",
-    "morgan": "~1.9.1",
+    "express": "^4.18.2",
+    "googleapis": "^118.0.0",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mariadb": "^3.1.1",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
-    "pug": "^2.0.0-beta11",
+    "pug": "^3.0.2",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
