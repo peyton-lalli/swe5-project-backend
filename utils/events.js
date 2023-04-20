@@ -6,6 +6,7 @@ const EventSignupJuror = db.eventsignupjuror;
 const EventSongs = db.eventsongs;
 const Pieces = db.pieces;
 const Composers = db.composers;
+const Critiques = db.critiques;
 const Instructors = db.instructors;
 const Users = db.users;
 
@@ -40,6 +41,43 @@ exports.getAllEvents = async () => {
           ["updatedAt", "eventSignupUpdatedAt"],
         ],
         include: [
+          {
+            model: Critiques,
+            attributes: [
+              ["id", "critiqueld"],
+              "critiqueText",
+              "deportment",
+              "deportmentRating",
+              "diction",
+              "dictionRating",
+              "tone",
+              "toneRating",
+              "interpretation",
+              "interpretationRating",
+              "accuracy",
+              "accuracyRating",
+              "balance",
+              "balanceRating",
+            ],
+            include: {
+              model: EventSignupJuror,
+              attributes: [["id", "eventSignupJurorId"]],
+              include: {
+                model: Instructors,
+                attributes: [["id", "instructorId"], "title"],
+                include: {
+                  model: Users,
+                  attributes: [
+                    ["id", "userId"],
+                    "email",
+                    "fName",
+                    "lName",
+                    "picture",
+                  ],
+                },
+              },
+            },
+          },
           {
             model: EventSongs,
             as: "songs",

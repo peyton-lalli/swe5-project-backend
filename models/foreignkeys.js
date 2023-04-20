@@ -29,6 +29,7 @@ function addForeignKeys(db) {
   availability.belongsTo(event);
 
   critiques.belongsTo(eventsignup);
+  critiques.belongsTo(eventsignupjuror);
 
   ensemble.belongsTo(instructors);
 
@@ -43,9 +44,11 @@ function addForeignKeys(db) {
   eventsignup.belongsTo(accompanists);
   eventsignup.hasMany(eventsongs, { as: "songs" });
   eventsignup.hasMany(eventsignupjuror, { as: "jurors" });
+  eventsignup.hasMany(critiques);
 
   eventsignupjuror.belongsTo(eventsignup);
   eventsignupjuror.belongsTo(instructors);
+  eventsignupjuror.hasMany(critiques);
 
   eventsongs.belongsTo(pieces);
   eventsongs.belongsTo(eventsignup);
