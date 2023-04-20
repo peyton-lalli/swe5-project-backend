@@ -78,6 +78,7 @@ function addForeignKeys(db) {
 
   studentaccompanist.belongsTo(students);
   studentaccompanist.belongsTo(accompanists);
+  studentaccompanist.belongsTo(studentinstruments);
 
   students.belongsTo(users);
   students.belongsTo(members);
@@ -95,6 +96,7 @@ function addForeignKeys(db) {
   studentinstruments.belongsTo(students);
   studentinstruments.hasMany(studentrepertoire);
   studentinstruments.hasMany(studentinstructor);
+  studentinstruments.hasMany(studentaccompanist);
 
   studentrepertoire.belongsTo(students);
   studentrepertoire.belongsTo(repertoire);

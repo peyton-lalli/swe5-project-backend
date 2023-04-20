@@ -1,5 +1,6 @@
 const db = require("../models");
 const Accompanists = db.accompanists;
+const Accompanist = require("../utils/accompanist.js");
 const Op = db.Sequelize.Op;
 
 //Functions for the pagination
@@ -42,6 +43,25 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Something happend, try again!",
+      });
+    });
+};
+
+//Get a list of all of the instructorss in the database
+exports.findAllInfo = async (req, res) => {
+  await Accompanist.getAllAccompanistDataForUserId(req.params.id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Not Found` + data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
       });
     });
 };
