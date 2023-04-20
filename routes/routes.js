@@ -51,6 +51,11 @@ module.exports = (app) => {
   router.put("/accompanists/:id", [authenticate], accompanists.update);
   router.get("/accompanists", [authenticate], accompanists.findAll);
   router.get(
+    "/accompanists/allInfo/:id",
+    [authenticate],
+    accompanists.findAllInfo
+  );
+  router.get(
     "/accompanists/id/:id",
     [authenticate],
     accompanists.findAccompanistsById

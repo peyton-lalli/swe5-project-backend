@@ -1,15 +1,15 @@
 const db = require("../models");
 const Students = db.students;
-const Instructors = db.instructors;
+const Accompanists = db.accompanists;
 const Users = db.users;
 const Availability = db.availability;
-const StudentInstructor = db.studentinstructor;
+const StudentAccompanist = db.studentaccompanist;
 const StudentInstruments = db.studentinstruments;
 
-exports.getAllInstructorDataForUserId = async (userId) => {
-  let ins = await Instructors.findAll({
+exports.getAllAccompanistDataForUserId = async (userId) => {
+  let acc = await Accompanists.findAll({
     where: { userId: userId },
-    attributes: [["id", "instructorId"], "title", "createdAt", "updatedAt"],
+    attributes: [["id", "accompanistId"], "createdAt", "updatedAt"],
     include: [
       {
         model: Users,
@@ -25,8 +25,8 @@ exports.getAllInstructorDataForUserId = async (userId) => {
         },
       },
       {
-        model: StudentInstructor,
-        attributes: [["id", "studentInstructorId"]],
+        model: StudentAccompanist,
+        attributes: [["id", "studentAccompanistId"]],
         include: {
           model: StudentInstruments,
           attributes: [["id", "studentinstrumentId"]],
@@ -46,29 +46,29 @@ exports.getAllInstructorDataForUserId = async (userId) => {
     ],
   });
 
-  ins = ins[0].dataValues;
+  acc = acc[0].dataValues;
 
-  let availabilities = ins.user.availabilities;
-  delete ins.user;
+  let availabilities = acc.user.availabilities;
+  delete acc.user;
 
   let students = [];
 
-  for (let sI of ins.studentinstructors) {
+  for (let sI of acc.studentaccompanists) {
     let student = {};
     student = {
       ...sI.dataValues.studentinstrument.student.dataValues,
-      ...{ studentInstructorId: sI.dataValues.studentInstructorId },
+      ...{ studentAccompanistId: sI.dataValues.studentAccompanistId },
     };
     students.push(student);
   }
 
-  delete ins.studentinstructors;
+  delete acc.studentaccompanists;
 
-  ins = {
-    ...ins,
+  acc = {
+    ...acc,
     ...{ availabilities: availabilities },
     ...{ students: students },
   };
 
-  return ins;
+  return acc;
 };
