@@ -56,6 +56,7 @@ db.studentrepertoire = require("./studentrepertoire.model.js")(
 );
 db.userrole = require("./userrole.model.js")(sequelize, Sequelize);
 db.users = require("./users.model.js")(sequelize, Sequelize);
+db.gmailtokens = require("./gmailtokens.model.js")(sequelize, Sequelize);
 
 // Add Foreign Keys
 addForeignKeys(db);

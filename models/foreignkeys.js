@@ -24,6 +24,7 @@ function addForeignKeys(db) {
   const studentrepertoire = db.studentrepertoire;
   const userrole = db.userrole;
   const users = db.users;
+  const gmailtokens = db.gmailtokens;
 
   availability.belongsTo(users);
   availability.belongsTo(event);
@@ -110,6 +111,8 @@ function addForeignKeys(db) {
 
   userrole.belongsTo(roles);
   userrole.belongsTo(users);
+
+  gmailtokens.belongsTo(users);
 }
 
 module.exports = { addForeignKeys };
