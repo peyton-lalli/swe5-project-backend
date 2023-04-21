@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "bundle": "mkdir deploy && cp -r authorization config controllers models routes utils app.js package.json package-lock.json performance-t3-backend.service .env deploy && rm deploy/config/db.config.js && mv deploy/config/prod.db.config.js deploy/config/db.config.js"
+    "bundle": "mkdir deploy && cp -r authorization config controllers gmail models routes utils app.js package.json package-lock.json performance-t3-backend.service .env deploy && rm deploy/config/db.config.js && mv deploy/config/prod.db.config.js deploy/config/db.config.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
