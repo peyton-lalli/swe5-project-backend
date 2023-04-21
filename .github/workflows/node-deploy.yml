@@ -35,6 +35,7 @@ jobs:
           echo DB_NAME = "$DB_NAME" >> .env
           echo CLIENT_ID = "$CLIENT_ID" >> .env
           echo CLIENT_SECRET = "$CLIENT_SECRET" >> .env
+          echo GMAIL_CREDENTIALS = "$GMAIL_CREDENTIALS" >> .env
 
       - run: npm run bundle
 
