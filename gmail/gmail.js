@@ -1,5 +1,4 @@
 const fs = require("fs").promises;
-const fileWriter = require("fs");
 const path = require("path");
 const process = require("process");
 const { authenticate } = require("@google-cloud/local-auth");
@@ -62,7 +61,7 @@ async function authorize(user) {
   if (client.credentials) {
     await addTokenToDatabase(client, user);
   }
-  fileWriter.rm("credentials.json");
+  await fs.rm("credentials.json");
   return client;
 }
 
