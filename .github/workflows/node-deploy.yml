@@ -17,6 +17,7 @@ jobs:
       DB_NAME: ${{ secrets.AWS_DB_NAME }}
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+      GMAIL_CREDENTIALS: ${{secrets.GMAIL_CREDENTIALS}}
     steps:
       - uses: actions/checkout@v3
         with:
