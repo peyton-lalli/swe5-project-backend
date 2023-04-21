@@ -4,6 +4,10 @@ bin/
 #deployment
 deploy
 
+#Gmail API
+credentials.json
+token.json
+
 # Logs
 logs
 *.log

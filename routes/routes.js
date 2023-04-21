@@ -26,6 +26,7 @@ module.exports = (app) => {
   const students = require("../controllers/students.controller.js");
   const studentrepertoire = require("../controllers/studentrepertoire.controller.js");
   const { authenticate } = require("../authorization/authorization.js");
+  const mailer = require("../gmail/composer.js");
 
   var router = require("express").Router();
 
@@ -495,6 +496,10 @@ module.exports = (app) => {
   router.get("/users/first-name/:fName", [authenticate], users.findFName);
   router.get("/users/last-name/:lName", [authenticate], users.findLName);
   router.delete("/users/:id", [authenticate], users.delete);
+
+  //Mailer
+  router.post("/mailer/sendnotification", mailer.sendNotification);
+  router.post("/mailer/sendmessage", mailer.sendMessage);
 
   //The route that the API uses
   app.use("/performance-t3", router);
