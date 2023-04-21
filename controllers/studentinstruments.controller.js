@@ -83,6 +83,12 @@ exports.findStudent = (req, res) => {
   const studentId = req.params.studentId;
   StudentInstruments.findAndCountAll({
     where: { studentId: studentId },
+    include: [
+      {
+        model: db.instruments,
+        attributes: ["name"],
+      },
+    ],
     limit,
     offset,
   })
