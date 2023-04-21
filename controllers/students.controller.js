@@ -82,7 +82,9 @@ exports.findStudentById = (req, res) => {
   const id = req.params.id;
   Students.findAndCountAll({
     where: { id: id },
-    include: [{ model: db.users, attributes: ["fName", "lName", "picture"] }],
+    include: [
+      { model: db.users, attributes: ["fName", "lName", "picture", "email"] },
+    ],
     limit,
     offset,
   })
