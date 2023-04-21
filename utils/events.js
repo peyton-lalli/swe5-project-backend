@@ -58,6 +58,7 @@ exports.getAllEvents = async () => {
               "accuracyRating",
               "balance",
               "balanceRating",
+              "isExpanded",
             ],
             include: {
               model: EventSignupJuror,
@@ -94,6 +95,7 @@ exports.getAllEvents = async () => {
                 "lyrics",
                 "translation",
                 "language",
+                "repertoireId",
                 ["createdAt", "pieceCreatedAt"],
                 ["updatedAt", "pieceUpdatedAt"],
               ],
@@ -106,6 +108,7 @@ exports.getAllEvents = async () => {
                   "deathyear",
                   ["createdAt", "composerCreatedAt"],
                   ["updatedAt", "composerUpdatedAt"],
+                  "picture",
                 ],
               },
             },

@@ -3,43 +3,43 @@ const { SqlError } = require("mariadb");
 module.exports = (sequelize, Sequelize) => {
   const Critiques = sequelize.define("critiques", {
     critiqueText: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     isExpanded: {
       type: Sequelize.BOOLEAN,
     },
     deportment: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     deportmentRating: {
       type: Sequelize.STRING,
     },
     diction: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     dictionRating: {
       type: Sequelize.STRING,
     },
     tone: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     toneRating: {
       type: Sequelize.STRING,
     },
     interpretation: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     interpretationRating: {
       type: Sequelize.STRING,
     },
     accuracy: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     accuracyRating: {
       type: Sequelize.STRING,
     },
     balance: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     balanceRating: {
       type: Sequelize.STRING,
