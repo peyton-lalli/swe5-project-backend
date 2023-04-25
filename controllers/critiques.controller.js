@@ -33,6 +33,7 @@ exports.create = (req, res) => {
     accuracyRating: req.body.accuracyRating,
     balance: req.body.balance,
     balanceRating: req.body.balanceRating,
+    eventsignupjurorId: req.body.eventsignupjurorId,
   };
 
   Critiques.create(critiques)
