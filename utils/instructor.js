@@ -38,8 +38,17 @@ exports.getAllInstructorDataForUserId = async (userId) => {
               "major",
               "classification",
               "semesters",
-              "userId",
             ],
+            include: {
+              model: Users,
+              attributes: [
+                ["id", "userId"],
+                "fName",
+                "lName",
+                "picture",
+                "email",
+              ],
+            },
           },
         },
       },
@@ -60,6 +69,14 @@ exports.getAllInstructorDataForUserId = async (userId) => {
       ...{ studentInstructorId: sI.dataValues.studentInstructorId },
     };
     students.push(student);
+  }
+
+  for (let [i, student] of students.entries()) {
+    students[i] = {
+      ...student,
+      ...student.user.dataValues,
+    };
+    delete students[i].user;
   }
 
   delete ins.studentinstructors;
