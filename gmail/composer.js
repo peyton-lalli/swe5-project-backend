@@ -16,6 +16,33 @@ exports.sendNotification = async (req, res) => {
   res.status(response).send();
 };
 
+exports.sendChangeRequest = async (req, res) => {
+  const options = {
+    to: req.body.changerEmail,
+    replyTo: req.body.requesterEmail,
+    subject: req.body.requesterName + " has Requested an Event Timeslot Change",
+    text:
+      req.body.requesterName +
+      " is requesting a timeslot change for the following event: \n\n" +
+      "Event Title: " +
+      req.body.eventTitle +
+      "\n" +
+      "Event Date: " +
+      req.body.date +
+      "\n" +
+      "Signup Timeslot: " +
+      req.body.timeslot +
+      "\n\nIf you wish to accept this request, please log in and make the change: https://perform.eaglesoftwareteam.com/performance/t3/",
+    textEncoding: "base64",
+  };
+
+  const user = { userId: req.body.userId };
+
+  const response = (await sendEmail(options, user)).status;
+
+  res.status(response).send();
+};
+
 exports.sendMessage = async (req, res) => {
   const options = {
     bcc: req.body.studentEmailList,

@@ -353,6 +353,7 @@ module.exports = (app) => {
     students.getStudentRepertoiresByStudentId
   );
   router.get("/students/allInfo/:id", [authenticate], students.findAllInfo);
+  router.get("/students/userInfo/:id", [authenticate], students.findUserInfo);
   router.get("/students/id/:id", [authenticate], students.findStudentById);
   router.get(
     "/students/instructorid/:instructorId",
@@ -499,6 +500,7 @@ module.exports = (app) => {
 
   //Mailer
   router.post("/mailer/sendnotification", mailer.sendNotification);
+  router.post("/mailer/sendchangerequest", mailer.sendChangeRequest);
   router.post("/mailer/sendmessage", mailer.sendMessage);
 
   //The route that the API uses

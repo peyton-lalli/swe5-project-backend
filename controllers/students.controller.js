@@ -75,6 +75,24 @@ exports.findAllInfo = async (req, res) => {
     });
 };
 
+exports.findUserInfo = async (req, res) => {
+  await Student.getAllUserDataForStudentId(req.params.id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Not Found` + data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error" + err,
+      });
+    });
+};
+
 //Find a student based on the student id
 exports.findStudentById = (req, res) => {
   const { page, size } = req.query;

@@ -123,3 +123,24 @@ exports.getAllStudentDataForUserId = async (userId) => {
   });
   return stud;
 };
+
+exports.getAllUserDataForStudentId = async (studentId) => {
+  let user = await Students.findAll({
+    where: { id: studentId },
+    attributes: [["id", "studentId"]],
+    include: {
+      model: Users,
+      attributes: [["id", "userId"], "fName", "lName", "picture", "email"],
+    },
+  });
+
+  user = user[0].dataValues;
+
+  let u = user.user.dataValues;
+
+  user = {
+    ...u,
+  };
+
+  return user;
+};
