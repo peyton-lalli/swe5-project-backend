@@ -6,10 +6,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     lyrics: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     translation: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     language: {
       type: Sequelize.STRING,
